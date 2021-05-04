@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>cef52638-7c96-4be9-a5e2-987bb98e02a1</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\InitialDataSourcesComponent.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Server\Mod.Framework.Serilog\Mod.Framework.Serilog.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Server\Mod.Framework.WebApi\Mod.Framework.WebApi.csproj" />
+    <ProjectReference Include="..\..\Mod.CatsV3.Email\Mod.CatsV3.Email.csproj" />
+    <ProjectReference Include="..\..\Mod.CATSV3.Logs\Mod.CATSV3.Logs.csproj" />
+    <ProjectReference Include="..\Mod.CatsV3.Application\Mod.CatsV3.Application.csproj" />
+    <ProjectReference Include="..\Mod.CatsV3.EfCore\Mod.CatsV3.EfCore.csproj" />
+    <ProjectReference Include="..\Mod.CatsV3.Sharepoint\Mod.CatsV3.Sharepoint.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Temp\Clearance Sheet.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
+</Project>

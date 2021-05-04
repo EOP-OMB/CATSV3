@@ -1,0 +1,548 @@
+<section class="card">
+    <div class="card-content">
+      <div class="card-title" style="position: relative;">
+        Letter Details {{catsId}}: {{correspodenceData?.letterStatus}} 
+        <mat-icon *ngIf="itemId > 0" style="margin-left: 10px;position: absolute;top: 5px;">{{correspodenceData?.icon}}</mat-icon>
+        <!-- Progress Bar -->
+        <div class="progress form-group" *ngIf="progress > 0">
+            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
+            </div>
+        </div>
+      </div>      
+      <form [formGroup]="details" (ngSubmit)="openDialogConfirm($event)">
+        <!-- #region main Form -->
+        <div class="four-across">
+
+          
+          
+          <!--correspondentName-->
+          <div class="divrow" style="position: relative">
+            <div *ngIf="correspondentOptionsObs | async as  useroptions">
+              <div *ngIf="correspondentSelectedOptionsObs | async as selectedusers">
+                <app-select-search
+                  [sourceOptions]="useroptions" 
+                  [selectedOptions]="selectedusers"  
+                  sourceName="correspondentName"              
+                  label="Correspondent's Name" 
+                  placeholder=""
+                  isMulipleSelect='false' 
+                  [isDisabled]=details.disabled
+                  isAutoCompleted='true' 
+                  isRequired="true" 
+                  isAdding="true" 
+                  (valueChangeEmitter)="onChildOptionValueChange($event)">                
+                </app-select-search>
+              </div>
+            </div>
+            <div *ngIf="correspondentSelectedOptionsObs == undefined">
+                <app-select-autocomplete-placeholder  label="Correspondent's Name" >
+                </app-select-autocomplete-placeholder>
+            </div>
+
+          </div>     
+          
+          <!--otherSigners-->
+          <div class="divrow" style="position: relative">
+            <div *ngIf="otherSignersOptionsObs | async as useroptions">
+              <div *ngIf="otherSignersSelectedOptionsObs | async as selectedusers">
+                <app-select-search 
+                  [sourceOptions]="useroptions" 
+                  [selectedOptions]="selectedusers" 
+                  sourceName="otherSigners" 
+                  label="Other Signers"
+                  placeholder="" 
+                  isMulipleSelect="true" 
+                  [isDisabled]=details.disabled
+                  isAutoCompleted="true" 
+                  isRequired="false" 
+                  isAdding="true"
+                  (valueChangeEmitter)="onChildOptionValueChange($event)">
+                </app-select-search>
+              </div>
+            </div>
+            <div *ngIf="otherSignersSelectedOptionsObs  == undefined">
+                <app-select-autocomplete-placeholder  label="Other Signers Test" >
+                </app-select-autocomplete-placeholder>
+            </div>
+          </div>
+
+          <!-- Subject-->
+          <div class="divrow"  style="position: relative">
+            <label for="letterSubject"> Subject: </label>            
+            <mat-form-field >
+              <textarea  [matTooltip]="correspodenceData?.letterSubject ? correspodenceData?.letterSubject : ''" style="z-index: 10; background-color: white;"
+                formControlName="letterSubject" 
+                matInput >
+              </textarea>
+              <mat-placeholder class="placeholder"></mat-placeholder>
+            </mat-form-field>
+            <div class="hasError"
+              *ngIf="
+                (details.get('letterSubject')?.hasError('maxlength') ||
+                details.get('letterSubject')?.hasError('required')) &&
+                details.get('letterSubject')?.touched
+              "
+            >
+                Letter Subject is required and cannot exceed 400 characters
+            </div>
+          </div>          
+
+          <!-- Cross Reference-->
+          <div class="divrow">
+            <label for="letterCrossReference">
+              Cross Reference: 
+              <mat-checkbox [checked]="correspodenceData?.whFyi" formControlName="whFyi" id="whFyi">WH FYI</mat-checkbox>
+            </label>
+            <input
+              id="letterCrossReference"
+              type="text"
+              formControlName="letterCrossReference" matInput [matTooltip]="correspodenceData?.letterCrossReference ? correspodenceData?.letterCrossReference : ''"/>              
+              <mat-placeholder class="placeholder"></mat-placeholder>
+          </div>    
+          
+          <!--Document Type-->
+          <div class="divrow" style="position: relative;">
+            <label for="letterTypeName:">  Document Type: </label>
+            <mat-form-field >
+              <mat-select  id="letterTypeName"  #mySelectDocType formControlName="letterTypeName"  
+                title="" 
+                placeholder="Select one...">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let type of initialLocalDataSources.letterTypes" [value]="type.name">
+                  {{type.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="hasError"
+              *ngIf="                
+                details.get('letterTypeName')?.hasError('required') &&
+                details.get('letterTypeName')?.touched
+              ">
+              Document Type is required  
+            </div>            
+          </div>      
+
+           <!--External Agency-->
+           <div class="divrow">
+            <label for="externalAgency"> External Agency: </label>
+            <input  [disabled]="itemId > 0 ? '' : null" [matTooltip]="correspodenceData?.externalAgencies ? correspodenceData?.externalAgencies : ''"
+              id="externalAgencies" 
+              type="text"
+              formControlName="externalAgencies"  />                         
+            <mat-placeholder class="placeholder"></mat-placeholder>
+          </div>
+
+          <!--Date of Letter-->
+          <div class="divrow">
+            <label for="letterDate"> Date of Letter: </label>
+            <input
+              id="letterDate"
+              type="date"
+              formControlName="letterDate"
+              [class.invalid]="details.get('letterDate')?.invalid"
+            />
+            <div class="hasError"
+              *ngIf="                
+                details.get('letterDate')?.hasError('required') &&
+                details.get('letterSubject')?.touched
+              ">
+              Letter date is required 
+            </div>
+          </div>
+
+          <!--Date of Receipt-->
+          <div class="divrow">
+            <label for="letterReceiptDate"> Date of Receipt: </label>
+            <input
+              id="letterReceiptDate" 
+              type="date"
+              formControlName="letterReceiptDate"
+              [class.invalid]="details.get('letterReceiptDate')?.invalid"
+            />
+            <div class="hasError"
+              *ngIf="                
+                details.get('letterReceiptDate')?.hasError('required') &&
+                details.get('letterReceiptDate')?.touched
+              ">
+              letterReceiptDate is required 
+            </div>
+          </div>
+          
+          <!--Attach Letters(s)-->
+          <div  class="divrow" 
+           *ngIf="this.correspodenceData?.letterStatus != 'Open1'">
+            <label>Attach Letter(s): 
+              <mat-checkbox #docChoiceCheckbox *ngIf="IsClosing == true || details.controls.letterStatus?.value == 'Closed'" (change)="onDocumentTypeChange($event)" 
+                formControlName="isFinalDocument" id="isFinalDocument" title="Check if the attached is a final document">Final ?
+              </mat-checkbox>
+            </label>
+            
+            <div class = "file-field input-field" style="position: relative;">
+              <div class = "btn">
+                <span>Browse</span>                    
+                <input #fileInput  (change)="onChangeFileInput($event)" [matTooltip]="fileInputTooltip"
+                  type = "file" 
+                  name="browsefile"  multiple
+                  formControlName="browsefile" observeFiles  />
+              </div>
+              <mat-icon title="Delete chosen files" (click)="clearInputFile()" class="garbage">delete</mat-icon>
+              <div class = "file-path-wrapper">
+                  <input style="padding-left: 15px;"
+                    class = "file-path validate" 
+                    type = "text"
+                    name="filetext" 
+                    formControlName="filetext" 
+                    placeholder = "Upload multiple files" />
+                   
+              </div>
+            </div>
+            <div class="hasError"
+              *ngIf="                
+                details.get('browsefile')?.hasError('required') &&
+                details.get('browsefile')?.touched
+              ">
+              Attached File is Required 
+            </div>
+              
+         </div>
+          
+         <!--Attached Documents-->
+         <div class="divrow" style="position: relative;" *ngIf="itemId > 0">
+          <label for="documentsAttached"> Attached Documents: </label>
+          <mat-form-field >
+            <mat-select panelClass="attached-document-select" #mySelectDocumentsAttached placeholder="{{referenceDocuments?.length + reviewDocuments?.length + finalDocuments?.length}} Document(s)">
+              <mat-optgroup label="Reference Documents ({{referenceDocuments?.length}})" *ngIf="referenceDocuments?.length > 0">
+                <mat-option *ngFor="let document of referenceDocuments" [innerHtml]="document | safe:'html'" value="document">Ramayana</mat-option>
+              </mat-optgroup>
+              <mat-optgroup label="Review Documents ({{reviewDocuments?.length}})" *ngIf="reviewDocuments?.length > 0">
+                <mat-option *ngFor="let document of reviewDocuments" [innerHtml]="document | safe:'html'" value="document">Ramayana</mat-option>
+              </mat-optgroup>
+              <mat-optgroup label="Final  Documents ({{finalDocuments?.length}})" *ngIf="finalDocuments?.length > 0">
+                <mat-option *ngFor="let document of finalDocuments" [innerHtml]="document | safe:'html'" value="document">Ramayana</mat-option>
+              </mat-optgroup>  
+            </mat-select>
+          </mat-form-field>          
+        </div>        
+
+        <!--In Clearance-->
+        <div class="divrow" *ngIf="itemId > 0">
+          <label for="currentReview"> In Clearance: </label>
+          
+          <div *ngIf="correspodenceData.currentReview?.trim() != '' && correspodenceData.currentReview?.toLowerCase() != 'none'" style="cursor: pointer;" (click)="openDialogReviewDetails()"   class="document-ref" >
+            <span class=" onClearance">{{this.correspodenceData?.currentReview ? this.correspodenceData.currentReview : ''}}</span>
+          </div>
+          <div *ngIf="correspodenceData.currentReview?.trim() == '' || correspodenceData.currentReview?.toLowerCase() == 'none'"  class="document-ref" >
+            <span class=" onClearance">NONE</span>
+          </div>
+
+        </div>
+
+         <!--
+         <div>
+           <label for="email"> Email: </label>
+           <input
+             class="email-input"
+             id="email"
+             type="email"
+             formControlName="email"
+           />
+         </div>
+        -->
+
+          <!-- #endregion -->
+          <!-- #region Is Response Required -->
+         
+          <!--Is Response Required-->
+         <div class="divrow">
+           <label> Is Response Required: </label>  
+           <p id="onIsRequiredChangeYes"  (click)="onIsRequiredChangeYes('Yes')">
+             <input 
+               name="isLetterRequired"
+               formControlName="isLetterRequired"
+               value="true"
+               type="radio"
+               id="isLetterRequiredYes"
+             />
+             <label class="radioLabel" for="isLetterRequired">Yes</label>
+           </p>
+           <p id="onIsRequiredChangeNo" (click)="onIsRequiredChangeNo('No')" style="border-bottom: 1px solid #9e9e9e;">
+             <input
+               name="isLetterRequired"
+               class="email-input"
+               formControlName="isLetterRequired"
+               value="false"
+               type="radio"
+               id="isLetterRequiredNo"
+             />
+             <label  class="radioLabel" for="isLetterRequiredNo">No</label>
+           </p>
+         </div>
+
+         <!--Due for Signature By-->
+          <div class="divrow"  *ngIf="IsRequired == 'Yes'">
+            <label for="dueforSignatureByDate:"> Due for Signature By: </label>
+            <input
+              id="dueforSignatureByDate" 
+              type="date"
+              formControlName="dueforSignatureByDate"
+              [class.invalid]="details.get('dueforSignatureByDate')?.invalid"
+            />
+            <div class="hasError"
+              *ngIf="                
+                details.get('dueforSignatureByDate')?.hasError('required') &&
+                details.get('dueforSignatureByDate')?.touched
+              ">
+              Due for Signature By is required 
+            </div>
+          </div>
+          
+          <!--PAD Due Date-->
+          <div class="divrow" *ngIf="IsRequired == 'Yes'">
+            <label for="padDueDate::"> PAD Due Date: </label>
+            <input
+              id="padDueDate" 
+              type="date"
+              formControlName="padDueDate"
+              [class.invalid]="details.get('padDueDate')?.invalid"
+            />
+            <div class="hasError"
+              *ngIf="                
+                details.get('padDueDate')?.hasError('required') &&
+                details.get('padDueDate')?.touched
+              ">
+              PAD Due Date is required 
+            </div>
+          </div>
+
+          <!--Lead Office-->
+          <div class="divrow" style="position: relative" *ngIf="IsRequired == 'Yes'">
+            <div *ngIf="leadOfficeOptionsObs | async">
+              <div *ngIf="leadOfficeSelectedOptionsObs | async">
+                <app-select-search 
+                  [sourceOptions]="leadOfficeOptionsObs | async" 
+                  [selectedOptions]="leadOfficeSelectedOptionsObs | async" 
+                  sourceName="leadOfficeName" 
+                  label="Lead Office" 
+                  placeholder=""
+                  isMulipleSelect="false" 
+                  [isDisabled]=details.disabled
+                  isAutoCompleted="true" 
+                  [isRequired]="IsRequired == 'Yes' ? 'true' : 'false'" 
+                  isAdding="false"
+                  (valueChangeEmitter)="onChildOptionValueChange($event)">
+                </app-select-search>
+              </div>
+            </div>
+            <div *ngIf="leadOfficeSelectedOptionsObs  == undefined">
+                <app-select-autocomplete-placeholder  label="Lead Office" >
+                </app-select-autocomplete-placeholder>
+            </div>
+          </div>
+          
+           <!--leadOfficeUsers-->
+           <div class="divrow" style="position: relative" *ngIf="IsRequired == 'Yes'">
+            <div *ngIf="leadOfficeUsersOptionsObs | async as useroptions">
+              <div *ngIf="leadOfficeUsersSelectedOptionsObs | async as selectedusers">
+                <app-select-search 
+                  [sourceOptions]="leadOfficeUsersOptionsObs | async" 
+                  [selectedOptions]="leadOfficeUsersSelectedOptionsObs | async" 
+                  sourceName="leadOfficeUsers" 
+                  label="Lead Office Users" 
+                  placeholder=""
+                  isMulipleSelect="true" 
+                  [isDisabled]=details.disabled
+                  isAutoCompleted="true" 
+                  [isRequired]="IsRequired == 'Yes' ? 'true' : 'false'" 
+                  isAdding="false"
+                  isSourceOptionsAllString=false
+                  (valueChangeEmitter)="onChildOptionValueChange($event)">
+                </app-select-search>
+              </div>
+            </div>
+            <div *ngIf="leadOfficeUsersOptionsObs  == undefined">
+                <app-select-autocomplete-placeholder  label="Lead Office Users" >
+                </app-select-autocomplete-placeholder>
+            </div>
+          </div>
+
+          
+          <!--Copied Office-->
+          <div class="divrow" style="position: relative">
+            <div *ngIf="copiedOfficeOptionsObs | async">
+              <div *ngIf="copiedOfficeSelectedOptionsObs | async">
+                <app-select-search 
+                  [sourceOptions]="copiedOfficeOptionsObs | async" 
+                  [selectedOptions]="copiedOfficeSelectedOptionsObs | async" 
+                  sourceName="copiedOfficeName" 
+                  label="Copied Offices" 
+                  placeholder=""
+                  isMulipleSelect="true" 
+                  [isDisabled]=details.disabled
+                  isAutoCompleted="true" 
+                  [isRequired]="IsRequired != 'Yes' ? 'true' : 'false'" 
+                  isAdding="false"
+                  (valueChangeEmitter)="onChildOptionValueChange($event)">
+                </app-select-search>
+              </div>
+            </div>
+            <div *ngIf="copiedOfficeSelectedOptionsObs  == undefined">
+                <app-select-autocomplete-placeholder  label="Copied Offices" >
+                </app-select-autocomplete-placeholder>
+            </div>
+          </div>
+
+           <!--copiedOfficeUsers-->
+           <div class="divrow" style="position: relative">
+            <div *ngIf="copiedOfficeUsersOptionsObs | async as useroptions">
+              <div *ngIf="copiedOfficeUsersSelectedOptionsObs | async as selectedusers">
+                <app-select-search 
+                  [sourceOptions]="copiedOfficeUsersOptionsObs | async" 
+                  [selectedOptions]="copiedOfficeUsersSelectedOptionsObs | async" 
+                  sourceName="copiedUsersDisplayNames" 
+                  label="Copied Office Users"
+                  placeholder="" 
+                  isMulipleSelect="true" 
+                  [isDisabled]=details.disabled
+                  isAutoCompleted="true" 
+                  [isRequired]="IsRequired != 'Yes' ? 'true' : 'false'" 
+                  isAdding="false"
+                  isSourceOptionsAllString=false
+                  (valueChangeEmitter)="onChildOptionValueChange($event)">
+                </app-select-search>
+              </div>
+            </div>
+            <div *ngIf="copiedOfficeUsersOptionsObs  == undefined">
+                <app-select-autocomplete-placeholder  label="Copied Office Users" >
+                </app-select-autocomplete-placeholder>
+            </div>
+          </div>
+
+          <!--Status-->
+          <div class="divrow" style="position: relative" >
+            <label for="status:"> Status: </label>
+            <mat-form-field>
+              <mat-select (selectionChange)="onStatusChange($event)"  #mySelectLetterStatus id="letterStatus" formControlName="letterStatus"  placeholder="Select one...">  
+                                
+                <mat-option value="Open">Open</mat-option>
+                <mat-option value="Closed">Closed</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="hasError"
+              *ngIf="                
+                details.get('letterStatus')?.hasError('required') &&
+                details.get('letterStatus')?.touched
+              ">
+              Status is required 
+            </div>               
+          </div>
+
+          <!--No Response" Reason-->
+          <div class="divrow" *ngIf="IsRequired != 'Yes'">
+            <label for="notRequiredReason"> "No Response" Reason: </label>            
+            <mat-form-field>
+              <textarea  maxlength="400" [matTooltip]="correspodenceData?.notRequiredReason" 
+                formControlName="notRequiredReason" 
+                matInput>
+              </textarea>
+            </mat-form-field>             
+            <mat-placeholder class="placeholder"></mat-placeholder>
+            <div class="hasError"
+              *ngIf="
+                (details.get('notRequiredReason')?.hasError('maxlength') ||
+                details.get('notRequiredReason')?.hasError('required')) &&
+                details.get('notRequiredReason')?.touched
+              ">
+            "No Response" Reason: is required and cannot exceed 400 characters
+            </div>
+          </div>
+
+          <!--Notes-->
+          <div class="divrow">
+            <label for="notes"> Notes: </label>            
+            <mat-form-field>
+              <textarea [matTooltip]="correspodenceData?.notes? getStringFromHtml(correspodenceData.notes)?.split('|').join('\n'): ''" 
+                formControlName="notes" 
+                matInput >
+              </textarea>             
+              <mat-placeholder class="placeholder"></mat-placeholder>
+            </mat-form-field>
+          </div>     
+          
+
+          <!--Reopen Reasons
+          <div class="divrow" *ngIf="IsReopening == true && correspodenceData.letterStatus == 'Closed'">
+            <label for="reasonsToReopen"> "Reopen Reasons: </label>            
+            <mat-form-field>
+              <textarea  [matTooltip]="correspodenceData.reasonsToReopen" 
+                formControlName="reasonsToReopen" 
+                matInput >
+              </textarea>             
+              <mat-placeholder class="placeholder"></mat-placeholder>
+            </mat-form-field>
+            <div class="hasError"
+              *ngIf="
+                (details.get('reasonsToReopen')?.hasError('maxlength') ||
+                details.get('reasonsToReopen')?.hasError('required')) &&
+                details.get('reasonsToReopen')?.touched
+              "
+            >
+            Reopen Reasons: is required and cannot exceed 400 characters
+            </div>
+          </div>-->
+
+          <!-- #endregion -->
+        </div>
+
+        <button (click)="onCancelClick($event)" name="cancelbtn" style="margin-top: 40px;" class="btn" >
+          Cancel / Back
+        </button>
+
+        <button (click)="onSubmitButtonClick($event)" *ngIf="details.controls.letterStatus?.value == 'Open'" name="savedbtn" style="margin-top: 40px; margin-left: 20px;" class="btn" [disabled]="!details.valid" >
+          Save
+        </button>
+
+        <button (click)="onSubmitButtonClick($event)" name="submitbtn" style="margin-top: 40px; margin-left: 20px;" class="btn" 
+          [disabled]="!details.valid" *ngIf="IsReopening || correspodenceData?.letterStatus != 'Closed' " >
+          Submit
+        </button>
+
+        <button  name="clearancesheetbtn" style="margin-top: 40px; margin-left: 20px; display: none" class="btn" [disabled]="!details.valid" 
+         *ngIf="correspodenceData?.currentReview != '' && correspodenceData?.currentReview != 'NONE' && itemId > 0">
+          Generate Clearancesheet
+        </button>
+
+        <mat-card *ngIf="allInvalidControls?.length > 0 && (correspodenceData?.letterStatus != 'Closed' || IsReopening == true)" style="margin-top: 20px;background-color: antiquewhite;">
+          <mat-card-header>
+             <mat-card-title style="font-size: 15px;">
+              The following {{allInvalidControls?.length}} field(s) are required:              
+            </mat-card-title>
+          </mat-card-header>
+        
+          <mat-card-content> 
+            <span *ngFor="let ctr of allInvalidControls; index as i" class="multi_lines_text"  style="margin: 10px;color: red;" >{{i + 1}} - {{ctr}} </span>
+          </mat-card-content>    
+        </mat-card>  
+
+        
+      </form>
+    </div>
+  </section>
+  
+  <section class="card showFormDataForDebug" >
+    <div class="card-content">
+     
+
+      <div class="card-title">Form Data</div>
+      
+      Invalid Controls:
+      <pre>{{ allInvalidControls | json }}</pre>
+      Form Value Object:      
+      <pre>{{ details.value | json }}</pre>
+      Form Validity:
+      <div>{{ details.valid }}</div>
+  
+      <button class="btn" (click)="logTheForm()">
+        Log Form Object
+      </button>
+    </div>
+  </section>

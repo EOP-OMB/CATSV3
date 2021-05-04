@@ -1,0 +1,22 @@
+<div  class="four-across" *ngIf="summaryForms?.length > 0">
+    <div *ngFor="let form of summaryForms; let stepIndex=index" class="summaryformDiv" >
+        <mat-card  [ngClass]="{'invalid-form-group': form.isInValid,'valid-form-group': !form.isInValid}">
+            <mat-card-header>
+                <mat-card-title>
+                    <div class="summary-form-title" >
+                        {{form.form}} 
+                        <mat-icon *ngIf="form.isShowEditIconON" (click)="onEditStep(stepIndex)" [title]="'Edit ' + form.form" style="margin-left: 10px; cursor: pointer;">edit</mat-icon>
+                    </div>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div *ngFor="let control of form.controls">
+                    <div class="row" *ngIf="control.label != ''" [ngStyle]="{'color':control.isValid === false ? 'red' : '' }">
+                        <div class="col-md-5  col-xs-12  summary-ctr-label" [matTooltip]="control.label" >{{control.label}}</div>
+                        <div class="col-md-7  col-xs-12  summary-ctr-value" [matTooltip]="getStringFromHtml(control.title)"  [innerHTML]="control.text | safe:'html'"></div> 
+                    </div>
+               </div>
+            </mat-card-content>
+        </mat-card>       
+    </div>
+</div>

@@ -1,0 +1,83 @@
+<div  class="row" style="background-color: white;border-radius: 4px; padding: 10px;">
+	<div class="col-xs-12 col-sm-12"  style="background-color: white;border-radius: 4px; padding: 0px 10px 0px 10px;">
+		<div class="row" style="background-color: white;border-radius: 4px">
+		  <form class="formToEdit" [formGroup]="reportDatesBetween" #form1 title="Document Details" id="documentDetailsFormGroup">
+			  <div class="col-xs-12 col-sm-12">
+				<mat-form-field class="col-xs-12 col-sm-12 col-lg-2 globalsearchfilter">
+				  <input type="date" matInput width="100%" formControlName="startDate"  placeholder="Start Date">
+				</mat-form-field>
+				<mat-form-field class="col-xs-12 col-sm-12 col-lg-2 globalsearchfilter">
+				  <input type="date" matInput width="100%"  formControlName="endDate" placeholder="End Date">			  
+				</mat-form-field>
+				
+				<mat-form-field class="col-xs-12 col-sm-12 col-lg-2 globalsearchfilter">
+				  <input type="text" matInput width="100%"  formControlName="correspondentName" placeholder="Correspondent's Name" [(ngModel)]="myDefaultValue">			  
+				</mat-form-field>
+				
+				<mat-form-field class="col-xs-12 col-sm-12 col-lg-2">
+					<mat-select formControlName="administrationId" placeholder="Administration">
+						<mat-option value=""></mat-option>
+						<mat-option *ngFor="let s of initialDataSources.adminstrations" [value]="s.id">
+						  {{s.name}}
+						</mat-option>
+					</mat-select>		  
+				</mat-form-field>
+				<button class="col-xs-12 col-sm-12 col-lg-2 filter-button" mat-button  [disabled]="!reportDatesBetween.valid"  (click)="onReportRefresh('StatisticReport')">Filter</button>
+
+			  </div>
+		  </form>
+		</div>
+
+	</div>
+	<div class="col-xs-12 col-sm-12 col-lg-4">
+		<div class="row">
+			<section class="card" style="border:none" >
+				<div class="card-content">
+				  <div class="card-title">
+					<mat-icon title="Refresh the reports" (click)="onReportRefresh('StatisticReport')" style="cursor: pointer; float: left;">refresh</mat-icon> <span style="margin-left: 20px;">Reviews Status Report: In Collaroration</span> 
+				  </div>
+				  <div class=" iframeroot">
+
+					<iframe (onload)="iframeOnLoad()" iframeAutoHeight style="background-color:F5F5F5;" [src]="reportStatisticsSrc" allowfullscreen></iframe>                
+						<!-- <ssrs-reportviewer  (load)="isLoading()"
+							[reportserver]="reportServer"
+							[reporturl]="reportUrlStatistics"
+							[showparameters]="showParameters" 
+							[parameters]="parameters" 
+							[language]="language" 
+							[width] ="width" 
+							[height]="height" 
+							[toolbar]="toolbar" >
+						</ssrs-reportviewer>                  -->
+				  </div>              
+				  
+				</div>
+			  </section>
+			  
+		</div>
+	
+	</div>
+	<div class="col-xs-12 col-sm-12 col-lg-8">
+        <section class="card"  style="background-color: transparent; border:none" *ngIf="reportMasterReviewOpenItemsReportSrc != ''"  [ngStyle]="{'display':isReportDetailsByItemOn === false ? 'inline' : 'none' }">
+          <div class="card-content" style="margin-top: 15px;"> 
+              <div class="card-title">
+				  <span class="show-report-commnds">{{reportResponseTitle}}</span> 
+				  <mat-checkbox title="Uncheck to navigate to item's details" class="show-report-commnds" [checked]="isShowToolbar"  (change)="onShowRepotCommands($event.checked)"  *ngIf="reportResponseTitle != '' && isReportDetailsByItemOn === false">
+					 <span *ngIf="isShowToolbar" style="font-style: italic;font-size: 12px;color: darkviolet;">uncheck to navigate to item's details</span><span *ngIf="!isShowToolbar" style="font-style: italic;font-size: 12px;color: #e83e8c;">check to see the parameters/options</span>
+				  </mat-checkbox>
+			  </div>
+              <div class=" iframeroot">
+                <iframe  iframeAutoHeight  [src]="reportMasterReviewOpenItemsReportSrc" sandbox="allow-forms allow-modals allow-top-navigation allow-top-navigation-by-user-activation allow-scripts allow-same-origin allow-popups"></iframe>
+              </div>              
+          </div>
+        </section>        
+        <section class="card"  style="background-color: transparent; border:none" [ngStyle]="{'display':isReportDetailsByItemOn === true ? 'inline' : 'none' }">
+          <div class="card-content" style="margin-top: 15px;"> 
+            <div class="card-title"><mat-icon title="Click to go back to the Main Report" (click)="onGoBackToTheMainReport()" style="cursor: pointer;">west</mat-icon><span style="margin-left: 20px">{{reportResponseTitle}}</span> </div>
+              <div class=" iframeroot" *ngIf="reportReviewOpenItemsDetailsReportSrc != ''">
+                <iframe  iframeAutoHeight  [src]="reportReviewOpenItemsDetailsReportSrc" sandbox="allow-forms allow-top-navigation allow-top-navigation-by-user-activation allow-scripts allow-same-origin allow-popups"></iframe>
+              </div>              
+          </div>
+        </section>        
+	</div>
+</div>

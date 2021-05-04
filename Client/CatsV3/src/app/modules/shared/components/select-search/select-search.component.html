@@ -1,0 +1,111 @@
+<div class="divrow select-search" style="position: relative">
+  <form [formGroup]="form" >
+    <label [attr.for]="sourceName" *ngIf="label != '' && !isMatLableActivated"> {{label}}: </label>
+    <mat-form-field [appearance]="appearance">
+      <mat-label *ngIf="isMatLableActivated">{{label}}</mat-label>
+      
+      <mat-select  *ngIf="isSourceOptionsAllString == true"
+        #mySelect [formControlName]="sourceName" [id]="sourceName" [matTooltip]="title" [placeholder]="placeholder" #singleSelect [multiple]="multipleSelect" 
+        (selectionChange)="onOptionValueChange($event)" (keydown)="$event.stopPropagation()" [disabled]="isDisabled" [disableOptionCentering]="true"  panelClass="myPanelClass">
+        
+          <!-- Select Trigger -->
+          <mat-select-trigger *ngIf="multipleSelect">
+            {{selectedOptions ? selectedOptions[0] : ''}}
+            <span *ngIf="selectedOptions ? selectedOptions.length > 1 : ''" >
+              (+{{selectedOptions.length - 1}} {{selectedOptions.length === 2 ? 'other' : 'others'}})
+            </span>
+          </mat-select-trigger>
+
+        
+        <div >  
+          <!-- Search text box -->
+          <div style="position: relative; z-index: 100;">
+            <mat-option>
+              <div>
+                <ngx-mat-select-search formControlName="selectFilterCtrl" 
+                    [showToggleAllCheckbox]="false" (toggleAll)="toggleSelectAll($event)" noEntriesFoundLabel="'no matching found'"
+                    placeholderLabel="Find person ..." >
+                    <mat-icon style="color: darkgray;" ngxMatSelectSearchClear>delete</mat-icon>
+                </ngx-mat-select-search>
+                <mat-icon *ngIf="isAdding == 'true' && showAddOptionButton == true;" (click)="onAddingOption()"  
+                [ngClass]="{'addOptionNewLetter': multipleSelect === false, 'addOptionOldLetter':multipleSelect === true }">add_circle</mat-icon>                  
+              </div>          
+            </mat-option>
+
+          </div>
+           <!-- Selected option -->
+           <div *ngIf="selectedOptions.length > 0" class="mat-selected-option-panel">
+            <mat-option *ngFor="let option of selectedOptions" [value]="option" style="width:100%" [disabled]="option.displayName?.includes('(INACTIVE)')" >
+              {{option}}
+            </mat-option>
+          </div>
+
+          <!-- Available options -->
+          <div class="mat-selected-available-option-panel">
+            <mat-option *ngFor="let option of filteredOptions | async | slice : 0 : 100" [value]="option"  [attr.title]="option">
+              {{option}}
+            </mat-option>
+          </div>
+
+        </div>
+      </mat-select>
+
+      <mat-select  *ngIf="isSourceOptionsAllString != true"
+        #mySelect [formControlName]="sourceName" [id]="sourceName" [matTooltip]="title" [placeholder]="placeholder" #singleSelect [multiple]="multipleSelect" 
+        (selectionChange)="onOptionValueChange($event)" (keydown)="$event.stopPropagation()" [disabled]="isDisabled" [disableOptionCentering]="true" panelClass="myPanelClass">
+
+        <!-- Select Trigger -->
+        <mat-select-trigger *ngIf="multipleSelect">
+          {{selectedOptions ? selectedOptions[0]?.displayName : ''}}
+          <span *ngIf="selectedOptions ? selectedOptions.length > 1 : ''" >
+            (+{{selectedOptions.length - 1}} {{selectedOptions.length === 2 ? 'other' : 'others'}})
+          </span>
+        </mat-select-trigger>
+
+        <div  >
+  
+          <!-- Search text box -->
+          <div  style="position: relative; z-index: 100;">
+            <mat-option>
+              <div>
+                <ngx-mat-select-search formControlName="selectFilterCtrl" 
+                    [showToggleAllCheckbox]="false" (toggleAll)="toggleSelectAll($event)" noEntriesFoundLabel="'no matching found'"
+                    placeholderLabel="Find person ..." >
+                    <mat-icon style="color: darkgray;" ngxMatSelectSearchClear>delete</mat-icon>
+                </ngx-mat-select-search>
+                <mat-icon *ngIf="isAdding == 'true' && showAddOptionButton == true;" (click)="onAddingOption()"  
+                [ngClass]="{'addOptionNewLetter': multipleSelect === false, 'addOptionOldLetter':multipleSelect === true }">add_circle</mat-icon>                  
+              </div>          
+            </mat-option>
+
+          </div>
+        
+           <!-- Selected option -->
+           <div class="mat-selected-option-panel">
+            <mat-option *ngFor="let option of selectedOptions" [value]="option.upn" style="width:100%" [disabled]="option.displayName?.includes('(INACTIVE)')"  >
+              {{option.displayName}}
+            </mat-option>
+          </div>
+
+          <!-- Available options -->
+          <div class="mat-selected-available-option-panel">
+            <mat-option *ngFor="let option of filteredOptions | async | slice : 0 : 100" [value]="option.upn"  [attr.title]="option.displayName">
+              {{option.displayName}}
+            </mat-option>
+          </div>
+
+        </div>
+      </mat-select>
+      
+      <!-- Error tag -->
+      <div  class="hasError hasErrorForControlSelect"
+        *ngIf="
+            form.get(sourceName)?.hasError('required') &&
+            form.get(sourceName)?.touched
+        "
+        >
+        {{label}} is Required
+      </div>
+    </mat-form-field>
+  </form>
+</div>

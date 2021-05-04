@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30104.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "CatsV3", "CatsV3\", "{BC1DBA74-B0B3-4E5E-A65B-321F21BB2ADA}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_50763"
+		Debug.AspNetCompiler.PhysicalPath = "CatsV3\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50763\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_50763"
+		Release.AspNetCompiler.PhysicalPath = "CatsV3\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50763\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "50763"
+		SlnRelativePath = "CatsV3\"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "documents", "documents", "{86D8E04C-982C-44CC-BE2D-511929428DEC}"
+	ProjectSection(SolutionItems) = preProject
+		\\Client\C$\Users\JDKazadi\Work Folders\Desktop\CATS V3\CATS V3 App Components and data Diagrams.pdf = \\Client\C$\Users\JDKazadi\Work Folders\Desktop\CATS V3\CATS V3 App Components and data Diagrams.pdf
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC1DBA74-B0B3-4E5E-A65B-321F21BB2ADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC1DBA74-B0B3-4E5E-A65B-321F21BB2ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D2647967-CE59-4C72-B5E0-F719EBD40007}
+	EndGlobalSection
+EndGlobal

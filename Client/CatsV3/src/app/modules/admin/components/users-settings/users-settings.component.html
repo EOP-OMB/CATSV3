@@ -1,0 +1,218 @@
+<div class="col-md-12 col-xs-12">
+  <form [formGroup]="entitiesForm" class="entity-choice" >
+    <mat-radio-group aria-label="Select an option">
+      <mat-radio-button  class="col-xs-12" value="lead" checked="true" (change)="entityRadioChange($event)">Lead Offices (Originators)</mat-radio-button>
+      <mat-radio-button class="col-xs-12" value="dl" style="margin-left: 20px;" (change)="entityRadioChange($event)"   *ngIf="isSupportTeamActivated == true">DL Groups (Reviewers)</mat-radio-button>
+      <mat-radio-button class="col-xs-12" value="admin" style="margin-left: 20px;" (change)="entityRadioChange($event)"   *ngIf="isSupportTeamActivated == true">CATS Support Users</mat-radio-button>
+    </mat-radio-group>
+ </form>
+</div>
+<div  class="row helpdocumentpage" style="background-color: none;border-radius: 4px; padding: 10px;">
+	<div class="col-md-4 col-xs-12">
+		<div class="row">
+        <section class="card" style="background-color: transparent;" >
+            
+            <div class="card-header">
+                Available <span>{{selectedOptionTitle}}</span> :                     
+            </div>
+            <div class="card-content">
+                <mat-list >
+                  <mat-list-item style="position: absolute; z-index: 100; background-color: rgb(226 218 218); display: none;" class="mat-list-item-style"  [style.background]="selected==0?'gainsboro':''" >                            
+                      <mat-checkbox title="Select All" class="show-report-commnds" [checked]="isSelected"  (change)="onToggleAll($event.checked)" >
+                          <span style="font-weight: bold;" >Check / Uncheck All</span>
+                      </mat-checkbox>                             
+                  </mat-list-item>
+                  <div >
+                      <div  *ngFor="let office of catsEntities;let i = index" >
+                        <mat-list-item class="mat-list-item-style" *ngIf="onShowAvailableEntity(office) == true"  (click)="onLeadOfficeChecked(office,$event)" [style.background]="i%2 == 0 ?'#efeaea':''" >                            
+                            <mat-checkbox [title]="office.description" #leadOffice class="show-report-commnds" (change)="onLeadOfficeChecked(office,$event)" [value]="office.name" 
+                            [checked]="setLeadOfficeChecked(office.name)"  >
+                                <span class="help-document" >{{office.description}}</span>
+                            </mat-checkbox>                     
+                        </mat-list-item>
+                        <mat-divider  ></mat-divider>
+                      </div>
+                  </div>
+                </mat-list> 
+            </div>
+        </section>			  
+		</div>
+	
+	</div>
+  <div class="col-md-8 col-xs-12">
+    <!-- Add users to the selected offices -->
+    <section class="card" style="background-color: transparent;margin-bottom: 10px;"> 
+      <div class="card-header">
+        {{checkedOffices.length}} {{selectedOptionTitle}}:  
+        <span  *ngFor="let office of checkedOffices" style="font-weight: normal; font-style: italic; background-color: rgb(206 201 201); border-radius: 4px; padding: 3px; margin-right: 5px;">
+          {{office.name}}
+        </span>                   
+      </div>
+      <div class="card-content user-selection">
+        <mat-tab-group #userTabGroup style="margin: 10px 10px 10px 15px;" (selectedTabChange)="onTabChanged($event);">         
+          <!-- TAB Filter User's lead offices -->
+          <mat-tab [label]="selectedOption == 'dl' ? 'Filter User\'s DL Groups' : 'Filter User\'s Lead Offices'"  *ngIf="isSupportTeamActivated == true"> 
+            <div class="row">          
+              <!-- Users selection -->              
+              <div class="col-md-5 col-xs-12" >
+                <form  [formGroup]="selectOfficeFilterform" novalidate class="example-form"  style="margin: 10px 10px 10px 15px;">
+                  <div style="font-style: italic;" *ngIf="selectedOption == 'lead'">Select / Search the User to filter her/his Offices</div>
+                  <div style="font-style: italic;" *ngIf="selectedOption == 'dl'">Select / Search the User to filter her/his DL Groups</div>
+                  <mat-form-field class="full-width">
+                    <input class="row" type="text" 
+                           style="cursor: pointer;"
+                           aria-label="Number"
+                           matInput
+                           formControlName="userFilterInput"
+                           [matAutocomplete]="autoUserfilter">
+                    <mat-autocomplete #autoUserfilter="matAutocomplete"  [displayWith]="displayFn" >
+                      <mat-option *ngFor="let user of userOfficefilteredOptions | async" [value]="user.upn"   (onSelectionChange)='onFilterUserLeadOffice(user.upn)'>
+                        {{user.displayName}}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-icon class="clear-user-selection" (click)="onClearUserSelectionInput()" title="Click to clear the input" >close</mat-icon> 
+                    <mat-icon class="onSearchIcon" title="Search User" >arrow_drop_down</mat-icon>
+                    
+                  </mat-form-field>        
+                </form>
+              </div>
+            </div>
+            
+          </mat-tab>       
+          <!-- TAB Add User's lead offices -->
+          <mat-tab [label]="'Add Users to ' + selectedOptionTitle" [disabled]="checkedOffices.length == 0" >
+            <div class="row">          
+              <!-- Users selection -->              
+              <div class="col-md-5 col-xs-12" >   
+                <form  [formGroup]="selectUserform" novalidate class="example-form"  style="margin: 10px 10px 10px 15px;">                             
+                  <div class="select-user" style="font-style: italic"  >Please Select Users to add</div>
+                  <mat-form-field class="full-width">
+                    <input class="row" type="text" 
+                           style="cursor: pointer;"
+                           aria-label="Number"
+                           matInput
+                           formControlName="userInput"
+                           [matAutocomplete]="autoAddUser">
+                    <mat-autocomplete #autoAddUser="matAutocomplete"  [displayWith]="displayFn" >
+                      <mat-option *ngFor="let user of userfilteredOptions | async" [value]="user.upn"   (onSelectionChange)='onOptionUserSelected($event)'>
+                        {{user.displayName}}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-icon class="clear-user-selection" (click)="onClearUserSelectionInput()" title="Click to clear the input" >close</mat-icon> 
+                    <mat-icon class="onSearchIcon" title="Search User" >arrow_drop_down</mat-icon>
+                    
+                  </mat-form-field>        
+                </form>
+              </div>
+              <!-- Selected users area -->
+              <div class="col-md-7 col-xs-12" >
+                <div class="row" style="margin-bottom: 20px;margin-left: 0px;margin-top: 10px;width: 100%;">
+                  
+                  <button *ngIf="selectedUsersToAdd.length > 0"    (click)="onUserAdded()" [disabled]="selectedUsersToAdd.length == 0" style="width: 120px" 
+                      mat-stroked-button color="primary"  title="Click to add a CATS User" >
+                      <span style="float: left;">Add Users</span>
+                      <mat-icon style="right: 10px;" >person_add</mat-icon>            
+                  </button>  
+                </div>
+                <div style="margin: 10px 10px 10px 15px;background-color:aliceblue; border-radius: 4px;" *ngIf="checkedOffices.length > 0">
+                  
+                  <div *ngIf="selectedUsersToAdd.length > 0" style="font-style: italic; font-weight: bold;"  >Selected Users to be added to the Lead Office(s):</div>
+                  <div *ngFor="let user of selectedUsersToAdd" style="min-height: 35px;position:relative; padding:5px;border-bottom: 1px solid lightblue">                
+                    <div class="select-user" style="width:55%"  >{{user.userFullName}}</div>
+                    <div class="select-user" style="width:30%">
+                      <mat-checkbox title="Is the selected user Office manager?" (change)="onIsOfficeManagerSelect($event, user.userUPN)" >
+                          <span style="font-weight: bold;" >Is Office Manager?</span>
+                      </mat-checkbox> 
+                    </div>
+                    <div class="select-user"  style="width:15%">
+                      <mat-icon (click)="onOptionUserToAddDetetionSelected(user)" style="font-size: 25px;top: 0px; cursor:pointer" title="Click to remove the selected">delete_outline</mat-icon>
+                    </div>               
+                  </div>
+    
+                </div>
+              </div>
+            </div>
+            
+          </mat-tab>
+          <!-- <mat-tab label="Tab not in Use" [disabled]="true" style="display: none;"> Content 3 </mat-tab> -->
+        </mat-tab-group>
+      </div>
+    </section>
+    <!-- List of users grouped by selected offices --> 
+    <section class="card" style="background-color: transparent; "  *ngIf="selectedMembers.length > 0 && checkedOffices.length > 0">                       
+        <div class="card-header">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6">
+              {{selectedMembers.length}} Available Users:
+            </div>
+                
+            <!--Table main filter -->
+            <div class="col-xs-12 col-sm-12 col-md-6" style="position:relative">
+              <mat-form-field style="position: absolute;right: 0px;top: -12px;">
+                <input class=" globalsearchfilter" matInput width="100%" (keyup)="applyFilterForEntityMembers($event.target.value)" placeholder="Filter">
+              </mat-form-field>
+            </div>     
+          </div>              
+        </div>
+        <div class="card-content">
+          
+        </div>
+    </section>	
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource"  *ngIf="selectedMembers.length > 0 && checkedOffices.length > 0" matSort>
+      
+              <!-- Checkbox Column -->
+              <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                  </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                  <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row)">
+                  </mat-checkbox>
+                </td>
+              </ng-container>
+            
+              <!-- Users Column -->
+              <ng-container matColumnDef="userFullName">
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header> User </th>
+                <td mat-cell *matCellDef="let element"> {{element.userFullName}} </td>
+              </ng-container>
+            
+              <!-- Office Column -->
+              <ng-container matColumnDef="EntityName">
+                <th mat-header-cell *matHeaderCellDef  mat-sort-header> 
+                  <span *ngIf="selectedOption == 'admin'">Role</span>
+                  <span *ngIf="selectedOption == 'lead'">Office</span>
+                  <span *ngIf="selectedOption == 'dl'">Distribution List</span> 
+                </th>
+                <td mat-cell *matCellDef="let element"> {{element.EntityName}} </td>
+              </ng-container>  
+  
+              <!-- Delete Column -->
+              <ng-container matColumnDef="delete">
+                <th mat-header-cell *matHeaderCellDef >
+                  <mat-icon>delete</mat-icon>  
+                </th>
+                <td mat-cell *matCellDef="let element" > 
+                  <mat-icon [attr.user]="element.userUPN" (click)="onUserRemoved(element.userFullName, element.userUPN, element.EntityId)" style="cursor: pointer;">delete</mat-icon> 
+                </td>
+              </ng-container>      
+              
+            
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                  (click)="selection.toggle(row)">
+              </tr>
+      </table>	
+      <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons  
+      [ngStyle]="{'display':selectedMembers.length > 0 && checkedOffices.length > 0 ? 'inline' : 'none' }"></mat-paginator>
+    </div>
+
+    
+	</div>
+</div>

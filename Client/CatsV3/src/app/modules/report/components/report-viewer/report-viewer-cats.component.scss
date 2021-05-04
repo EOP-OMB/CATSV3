@@ -1,0 +1,53 @@
+.formToEdit{
+    margin-left: -15px;width: 100%;
+    background-color: aliceblue;
+    border-radius: 4px;
+    margin: 1px;
+    padding: 5px;
+}
+.card-title{
+    font-weight: bold;
+    position: relative;
+}
+
+.card-title > .mat-icon{
+    
+    font-size: 20px;
+    margin-left: 10px;
+    position: absolute;
+    top:0px;
+    left: -15px;
+}
+
+section {
+    width: 100%;
+}
+
+.reportViewer > card{
+    border: none !important;
+    width: 900px;
+}
+
+/* iframe's parent node */
+.iframeroot {
+    width: 100%;
+}
+
+/* iframe itself */
+.iframeroot > iframe {
+    width: 100%;
+    border:none;
+}
+
+.frame{
+}
+
+::ng-deep .show-report-commnds{
+    display:inline-flex;
+    margin-right: 20px;
+}
+
+.filter-button{
+    background-color: antiquewhite;
+    border-radius: 4px;
+}

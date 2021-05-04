@@ -1,0 +1,615 @@
+<button style="display: none;" mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+    {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+  </button>
+
+  <mat-horizontal-stepper [linear]="isLinear" #stepper [selectedIndex]="stepperSelectedStepIndex" [ngClass]="{'mat-stepper-horizontal-disable-navigation1': parentRoute === 'reviewer'}">
+    <mat-step [stepControl]="documentDetailsFormGroup" label="Document Details"  state="home" [editable]="isEditable" 
+      *ngIf="routePath != 'manage'">
+      <div class="row rounds-setting" >
+        <div class="col-md-12 col-xs-12 form-title"><span>Document Details</span><mat-icon>account_balance </mat-icon> 
+          <span *ngIf="itemId > 0" class="catsid-round">({{catsId}}</span>
+          <span *ngIf="itemId > 0" class="catsid-round">({{catsId}}</span>
+          <span *ngIf="itemId > 0" class="catsid-round">{{currentRound}}</span>
+          <span *ngIf="itemId > 0" class="catsid-round">{{correspodenceData.letterStatus}})</span>
+        </div>
+        <div class="col-md col-xs-12"> 
+          <form class="formToEdit" [formGroup]="documentDetailsFormGroup" #form1 title="Document Details" id="documentDetailsFormGroup">
+            
+            
+            <div class="row" style="max-width: 400px; margin-bottom: 10px;">
+              <div class="col ">Boilerplate Response?:</div>
+              <div class="col ">
+                  <mat-label ngClass="labelBeforeSlide">No</mat-label>
+                  <mat-slide-toggle [checked]= "correspodenceData.collaboration?.boilerPlate.trim() == 'Yes' ? true : false" (change)="onChangeSlideToggle($event)" #boiler  >Yes</mat-slide-toggle>
+                  <textarea matInput hidden></textarea>
+              </div>
+            </div>        
+    
+            <mat-form-field appearance="fill">
+              <mat-label>Correspondent's Name:</mat-label>
+              <input matInput [attr.disabled]="!areControlsEditable" maxlength="200" placeholder="Correspondent's Name:" formControlName="correspondentName" id="correspondentName">
+              <!-- <input matInput [attr.disabled]="!areControlsEditable" placeholder="Correspondent's Name:" formControlName="correspondentName" [matAutocomplete]="auto" id="correspondentName">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option  *ngFor="let user of ombUsersfilteredOptions | async" [value]="user">{{user}}</mat-option>
+              </mat-autocomplete> -->
+            </mat-form-field>
+    
+            <mat-form-field appearance="fill">
+                <mat-label>Subject:</mat-label>
+                <textarea [attr.disabled]="!areControlsEditable"  maxlength="400" matInput placeholder="Subject" formControlName="letterSubject"  
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="2"
+                    cdkAutosizeMaxRows="10">
+    
+                </textarea>
+            </mat-form-field>
+    
+            <mat-form-field appearance="fill">
+              <mat-label>Document Type:</mat-label>
+              <mat-select [disabled]="!areControlsEditable" placeholder="Letter Type" aria-placeholder="Letter Type" formControlName="letterTypeName" id="letterTypeName" #doctype
+                [disableOptionCentering]="true"  panelClass="myPanelClass" >
+                <mat-option  *ngFor="let type of letterTypes" [value]="type">{{type}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+    
+            <mat-form-field appearance="fill">
+              <mat-label>Lead Office:</mat-label>
+              <mat-select [disabled]="!areControlsEditable" placeholder="Lead Office" aria-placeholder="Lead Office" formControlName="leadOfficeName" id="leadOfficeName" #leadingoffice
+                [disableOptionCentering]="true"  panelClass="myPanelClass" >
+                <mat-option  *ngFor="let office of leadOffices?.sort()" [value]="office">{{office}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <!--
+            <mat-form-field appearance="fill">
+                <mat-label>Boilerplate Response?</mat-label>
+                <mat-select  placeholder="Boilerplate Response?" formControlName="boilerplate"  aria-placeholder="Boilerplate Response?" #boile >
+                  <mat-option value="No" >No</mat-option>
+                  <mat-option value="Yes">Yes</mat-option>
+                </mat-select>
+            </mat-form-field>-->
+            
+            
+          </form>
+        </div>
+        <div class="col-md col-xs-12 stepColumns">              
+          <div class="panel panel-default" >
+            <div class="panel-body">
+              <p>HINT</p>
+              <p style="color: blue;">Please lock Track Changes within the review document before starting a collaboration or review round</p>
+              <p><span class="hint-label">Boilerplate:</span> Select Yes or No if the review document is a boilerplate response</p>
+              <p>
+                <span class="hint-label">Correspondent’s Name:</span> Name of individual you are sending correspondence to (note – not a required
+                  field, only complete if the review document(s) includes a letter)
+              </p>
+              <p>
+                <span class="hint-label">Subject:</span> Enter the subject of the review package – it should be descriptive but concise
+              </p>
+              <p>
+                <span class="hint-label">Letter Type:</span> Select type from dropdown menu
+              </p> 
+              <p>
+                <span class="hint-label">Lead Office:</span> Select the office from dropdown menu
+              </p>            
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+      <div *ngIf="errors?.length > 0" class="panel panel-default">
+        <div class="panel-body error"  style="background-color: #fffbf7;" >
+          <div style="color: red;">The following Fields are required:</div>
+          <ol>
+            <li *ngFor="let error of errors" [innerHTML]="error | safe:'html'"></li>
+          </ol>
+        </div>
+      </div>
+
+      <div>
+        <button mat-button (click)="onTransactionCancel(documentDetailsFormGroup)">CANCEL</button>
+        <button mat-button matStepperNext>NEXT</button>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="instructionsAttachDocFormGroup" label="Instructions and Attach Documents"  state="document" [editable]="isEditable" 
+      *ngIf="routePath != 'manage'">
+      <div class="row rounds-setting" >
+        <div class="col-md-12 col-xs-12 form-title">
+          <span>Instructions and Documents</span>  <mat-icon>description</mat-icon>
+          <span *ngIf="itemId > 0" class="catsid-round">({{catsId}}</span>
+          <span *ngIf="itemId > 0" class="catsid-round">{{currentRound}}</span>
+          <span *ngIf="itemId > 0" class="catsid-round">{{correspodenceData.letterStatus}})</span>
+        </div>
+        <div class="col-md col-xs-12"> 
+          <form class="formToEdit" [formGroup]="instructionsAttachDocFormGroup" #form2 title="Instructions and Documents Attachments" id="instructionsAttachDocFormGroup">
+                
+            <mat-form-field appearance="fill" *ngIf="parentRoute != 'reviewer'">
+                <mat-label>Review Document(s):</mat-label>
+                <ngx-mat-file-input #reviewdocumentcontrol formControlName="reviewDocuments" [multiple]="multiple"   placeholder="Attach Review Document(s)"
+                    [color]="color">                   
+                </ngx-mat-file-input>
+            </mat-form-field>
+    
+            <mat-form-field appearance="fill" *ngIf="parentRoute != 'reviewer'">
+                <mat-label>Reference Document(s):</mat-label>
+                <ngx-mat-file-input #referencedocumentcontrol formControlName="referenceDocuments" [multiple]="multiple"  placeholder="Attach Reference Document(s)"
+                    [color]="color">                   
+                </ngx-mat-file-input>
+            </mat-form-field>
+    
+            <mat-form-field appearance="fill">
+                <mat-label>Final Document(s):</mat-label>
+                <ngx-mat-file-input #finaldocumentcontrol formControlName="finalDocuments" [multiple]="multiple"  placeholder="Attach Final Document(s)"  [disabled]="parentRoute != 'reviewer' ? true : false" 
+                    [color]="color">                   
+                </ngx-mat-file-input>
+            </mat-form-field>
+    
+            <mat-form-field appearance="fill">
+                <mat-label>Summary of Material, Background:</mat-label>
+                <textarea matInput placeholder="Summary of Material, Background" formControlName="summaryMaterialBackground"  [readonly]="parentRoute == 'reviewer' ? true : false" 
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="2"
+                    cdkAutosizeMaxRows="10">
+    
+                </textarea>
+            </mat-form-field>
+    
+            <mat-form-field appearance="fill">
+                <mat-label>Review Instructions:</mat-label>
+                <textarea matInput placeholder="Review Instructions" formControlName="reviewInstructions"  [readonly]="parentRoute == 'reviewer' ? true : false"  
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="2"
+                    cdkAutosizeMaxRows="10">
+    
+                </textarea>
+            </mat-form-field>
+            
+          </form>
+        </div>
+        
+        <div class="col-md col-xs-12 stepColumns">              
+          <div class="panel panel-default" >
+            <div class="panel-body">
+              <p>HINT</p>
+              <p *ngIf="parentRoute == 'reviewer'" ><span class="hint-label">Attach Final Document (s):</span> Attach the Final document(s) by clicking attachment icon and selecting file(s)</p>
+              <p *ngIf="parentRoute != 'reviewer'" ><span class="hint-label">Attach Review Document (s):</span> Attach the review document(s) by clicking attachment icon and selecting file(s)</p>
+              <p *ngIf="parentRoute != 'reviewer'" >
+                <span class="hint-label">Attach Reference Documents:</span>  Upload the reference document(s) by clicking browse and selecting
+                file(s). Note, assigned incoming letters will already be attached
+              </p>
+              <p *ngIf="parentRoute != 'reviewer'" >
+                <span class="hint-label">Summary of Material Background:</span>  Enter background information on your package – it should be clear and concise
+              </p>
+              <p *ngIf="parentRoute != 'reviewer'" >
+                <span class="hint-label">Review Instructions:</span>  Enter instructions to all reviewers – not a required field
+              </p> 
+           </div>
+          </div>
+        </div>
+      </div>
+      
+      <div *ngIf="errors?.length > 0" class="panel panel-default">
+        <div class="panel-body error"  style="background-color: #fffbf7;" >
+          <div style="color: red;">The following Fields are required:</div>
+          <ol>
+            <li *ngFor="let error of errors" [innerHTML]="error | safe:'html'"></li>
+          </ol>
+        </div>
+      </div>
+      
+      <div>
+        <button mat-button (click)="onTransactionCancel(instructionsAttachDocFormGroup)">CANCEL</button>
+        <button mat-button matStepperPrevious *ngIf="parentRoute != 'reviewer'">BACK</button>
+        <button mat-button matStepperNext *ngIf="parentRoute != 'reviewer'">NEXT</button>
+        <button mat-button (click)="onPackageReviewFinalizedOrCompleted()" *ngIf="parentRoute == 'reviewer'" [disabled]="!instructionsAttachDocFormGroup.valid" style="font-weight: bold;">FINALIZE REVIEW</button>
+      </div>
+    </mat-step>
+
+    
+    <mat-step [stepControl]="roundsSelectionFormGroup" id="roundsSelectionFormGroup" label="Rounds Selection"  state="assignment" [editable]="isEditable" 
+      *ngIf="routePath != 'manage'">
+        <div class="row rounds-setting" >
+          <div class="col-md-12 col-xs-12 form-title">
+            <span>Rounds Selection Settings</span> <mat-icon>assignment</mat-icon> 
+            <span *ngIf="itemId > 0" class="catsid-round">({{catsId}}</span>
+            <span *ngIf="itemId > 0" class="catsid-round">{{currentRound}}</span>
+            <span *ngIf="itemId > 0" class="catsid-round">{{correspodenceData.letterStatus}})</span>
+          </div>
+          <div class="col-md col-xs-12">                
+            <form class="formToEdit" [formGroup]="roundsSelectionFormGroup" #form4 title="Rounds Selection" style="width: 100%;max-width: 100%;"  id="roundsSelectionFormGroup">
+                
+                <mat-form-field>
+                  <mat-label>Review Round:</mat-label>
+                  <mat-select [title]="reviewRoundsSelected?.join('\n')" #revroundsControl  placeholder="Review Round"
+                     multiple aria-placeholder="Review Round" formControlName="currentReview" id="currentReview" #doctype [disableOptionCentering]="true"  panelClass="myPanelClass" >
+                    <mat-select-trigger>
+                      {{reviewRoundsSelected ? reviewRoundsSelected[0] : ''}}
+                      <span *ngIf="reviewRoundsSelected ?reviewRoundsSelected.length > 1 : ''" >
+                        (+{{reviewRoundsSelected.length - 1}} {{reviewRoundsSelected.length === 2 ? 'other' : 'others'}})
+                      </span>
+                    </mat-select-trigger>
+                    <mat-option  [ngStyle]="{'color': currentRound == round ? 'lightgray' : 'black'}" [disabled]="currentRound == round ? true : false"  *ngFor="let round of reviewRounds" [value]="round">{{round}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <mat-label>Due Date:</mat-label>
+                  <input matInput min="08/27/2020" formControlName="currentRoundEndDate" id="currentRoundEndDate" type="date" placeholder="Ex. New York" required>
+                </mat-form-field>
+               
+            </form>
+          </div>
+
+          <div  class="col-md col-xs-12 stepColumns">
+            <form [formGroup]="roundsSelectionFormGroupHint"  title="Rounds Selection Hint"  #form5   id="roundsSelectionFormGroupHint">
+              <div class="selected-rounds" >
+              
+                <div *ngIf="itemId > 0">
+                  <span style="font-style: italic;">Current Round:</span>
+                  <ul>
+                    <li *ngIf="currentRound == ''" style="font-weight: bold;">None</li>
+                    <li *ngIf="currentRound != ''" style="font-weight: bold;">{{currentRound}}</li>
+                  </ul>
+                </div>
+  
+                <div>
+                  <span style="font-style: italic; color: blue;">NEXT ROUND(s):</span>
+                  <ul>
+                    <li *ngIf="reviewRoundsSelected?.length == 0">None</li>
+                    <li  *ngFor="let round of reviewRoundsSelected" title="round">
+                      {{round}}
+                    </li>
+                  </ul>  
+                </div>
+                  
+                <div *ngIf="itemId > 0">
+                  <span style="font-style: italic; ">Completed Rounds:</span>
+                  <ul  formControlName="completedRounds" ngDefaultControl  *ngIf="completedRounds?.length > 0 && itemId > 0">
+                    <li *ngFor="let round of completedRounds" >{{round}}</li>
+                  </ul>
+                  <ul *ngIf="completedRounds?.length == 0 || itemId == 0">
+                    <li>None</li>
+                  </ul> 
+                </div>
+  
+                <div *ngIf="itemId > 0 && completedReviewers?.length > 0">
+                  <span  style="font-style: italic; font-weight: bold; color: green;">Cleared By Users({{completedReviewers?.length}}) :</span>
+                  <ul class="assigned-users" >
+                    <li *ngFor="let user of completedReviewers" >{{user}}</li>
+                  </ul>
+                </div>
+                
+              </div>
+            </form>
+            
+          </div>
+
+          <div class="col-md col-xs-12 stepColumns">              
+            <div class="panel panel-default" style="width: 100%;max-width: 100%;max-height: 470px;overflow: auto;">
+              <div class="panel-body">
+                <p>HINT</p>
+                <p style="color: blue;">Please lock Track Changes within the review document before starting a collaboration or review round</p>
+                <div [innerHTML]="letterTypeSelectedHtmlContent | safe:'script'"></div> 
+                <div>
+                  <span class="hint-label">Select Review Round:</span> Select the review round for the collaboration
+                  <ul><li style="border: none;">Originators may select more than one review round; it requires advance discussion with <b>OMB ExecSec</b></li></ul>
+                </div>
+                <p>
+                  <span class="hint-label">Due Date:</span> Enter the Date to complete the review round
+                  Once form is complete, click the NEXT button (bottom right)
+                </p>           
+              </div>
+            </div>
+            
+          </div>
+
+        </div>
+
+        <div *ngIf="errors?.length > 0" class="panel panel-default">
+          <div class="panel-body error"  style="background-color: #fffbf7;" >
+            <div style="color: red;">The following Fields are required:</div>
+            <ol>
+              <li *ngFor="let error of errors" [innerHTML]="error | safe:'html'"></li>
+            </ol>
+          </div>
+        </div>
+
+        <div>
+          <button mat-button (click)="onTransactionCancel(roundsSelectionFormGroup)">CANCEL</button>
+          <button mat-button matStepperPrevious>BACK</button>
+          <button mat-button matStepperNext>NEXT</button>
+        </div>
+    </mat-step>
+
+    <mat-step [stepControl]="membersAssignmentFormGroup" label="Members Assignment"  state="people" [editable]="isEditable">
+      <div class="row rounds-setting" >
+        <div class="col-md-12 col-xs-12 form-title"><span>Members Assignments</span> <mat-icon>people</mat-icon> 
+          <span *ngIf="itemId > 0" class="catsid-round">({{catsId}}</span>
+          <span *ngIf="itemId > 0" class="catsid-round">{{currentRound}}</span>
+          <span *ngIf="itemId > 0" class="catsid-round">{{correspodenceData.letterStatus}})</span>
+        </div>  
+        <div class="col-md col-xs-12"> 
+          <form class="formToEdit" [formGroup]="membersAssignmentFormGroup" #form3 title="Members Assignment" id="membersAssignmentFormGroup">
+            
+            <div *ngIf="leadOfficeUsersOriginatorOptionsObs | async as useroptions">
+              <div *ngIf="selectedOriginatorsObs | async as selectedusers">
+                <app-select-search #myoriginators style="margin-bottom: 20px;"
+                    [sourceOptions]="useroptions" 
+                    [selectedOptions]="selectedusers" 
+                    sourceName="originators" 
+                    label="Originators:" 
+                    isMatLableActivated=true
+                    placeholder="Originators"
+                    isMulipleSelect="true" 
+                    isDisabled=false
+                    isAutoCompleted="true" 
+                    isRequired="true" 
+                    isAdding="false"
+                    appearance="fill"
+                    isSourceOptionsAllString=false
+                    (valueChangeEmitter)="onChildOptionValueChange($event)">
+                </app-select-search>
+              </div>
+            </div>
+            <div  class="label-hint">
+                <span style="font-weight: bold;">User Lists: </span>
+                <span>Distribution list not allowed for Originators. Only Select or Search for the users</span>
+            </div>
+            <div *ngIf="leadOfficeUsersOptionsObs | async as useroptions">
+              <div *ngIf="selectedReviewersObs | async as selectedusers">
+                <app-select-search #myreviewers
+                    [sourceOptions]="useroptions" 
+                    [selectedOptions]="selectedusers" 
+                    sourceName="reviewers" 
+                    label="Reviewers:" 
+                    isMatLableActivated=true
+                    placeholder="Reviewers"
+                    isMulipleSelect="true" 
+                    isDisabled=false
+                    isAutoCompleted="true" 
+                    isRequired="true" 
+                    isAdding="false"
+                    appearance="fill"
+                    isSourceOptionsAllString=false
+                    (valueChangeEmitter)="onChildOptionValueChange($event)">
+                </app-select-search>
+              </div>
+            </div>
+            <div  class="label-hint">
+                <span style="font-weight: bold;">Distribution Lists: </span>
+                <span>DL-BranchChiefs, </span>
+                <span>DL-Communications, </span>
+                <span>DL-DADS, </span>
+                <span>DL-FinalPackaging, </span>
+                <span>DL-GrayBuildingGeneralCounsel, </span>
+                <span>DL-LegAffairs, </span>
+                <span>DL-PADS, </span>
+                <span>DL-RedBuildingGeneralCounsel</span>
+            </div>
+            <div *ngIf="leadOfficeUsersOptionsObs | async as useroptions">
+              <div *ngIf="selectedFyiUsersObs | async as selectedusers">
+                <app-select-search #myfyiusers
+                    [sourceOptions]="leadOfficeUsersOptionsObs | async" 
+                    [selectedOptions]="selectedusers" 
+                    sourceName="fyiUsers" 
+                    label="FYI Users:" 
+                    isMatLableActivated=true
+                    placeholder="FYI Users"
+                    isMulipleSelect="true" 
+                    isDisabled=false
+                    isAutoCompleted="true" 
+                    isRequired="false" 
+                    isAdding="false"
+                    appearance="fill"
+                    isSourceOptionsAllString=false
+                    (valueChangeEmitter)="onChildOptionValueChange($event)">
+                </app-select-search>
+              </div>
+            </div>
+            <div class="label-hint">
+                <span style="font-weight: bold;">Distribution Lists: </span>
+                <span>DL-BranchChiefs, </span>
+                <span>DL-Communications, </span>
+                <span>DL-DADS, </span>
+                <span>DL-FinalPackaging, </span>
+                <span>DL-GrayBuildingGeneralCounsel, </span>
+                <span>DL-LegAffairs, </span>
+                <span>DL-PADS, </span>
+                <span>DL-RedBuildingGeneralCounsel</span>
+            </div>          
+          </form>
+        </div>
+        <div *ngIf="membersAssignmentFormGroup.controls['originators'].value?.length > 0 || membersAssignmentFormGroup.controls['reviewers'].value?.length > 0 || membersAssignmentFormGroup.controls['fyiUsers'].value?.length > 0 || completedReviewers?.length > 0 || draftReviewers?.length > 0" 
+          class="col-md col-xs-12 stepColumns">  
+          
+          <div class="panel panel-default">
+            <div class="panel-body">            
+                
+              
+
+              <div *ngIf="itemId > 0 && draftReviewers?.length > 0">
+                <span  style="font-style: italic; color: red;">Draft Users ({{draftReviewers?.length}}) :</span>
+                <div class="assigned-users">
+                  <ul style="position: relative;" >
+                    <li *ngFor="let user of getMembersUpnAndFullnames(draftReviewers)" >
+                      {{user.displayName}}<mat-icon (click)="onOriginatorSendBackReviewDraft(user.upn)"  class="return-draft" [title]="' Click to Return draft to ' + user ">assignment_return</mat-icon>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div *ngIf="membersAssignmentFormGroup.controls['originators'].value?.length > 0">
+                <span style="font-style: italic;">Assigned Originators ({{membersAssignmentFormGroup.controls['originators'].value?.length}}) :</span>
+                <div class="assigned-users">
+                  <ul>
+                    <li *ngFor="let user of getMembersFullnames(membersAssignmentFormGroup.controls['originators'].value)" >{{user}}</li>
+                  </ul>
+                </div>                
+              </div>
+              
+              <div *ngIf="membersAssignmentFormGroup.controls['reviewers'].value?.length > 0">
+                <span style="font-style: italic;">Assigned Reviewers ({{membersAssignmentFormGroup.controls['reviewers'].value?.length}}) : </span>
+                <div  class="assigned-users">
+                  <ul style="position: relative;">
+                    <li *ngFor="let user of getMembersUpnAndFullnames(membersAssignmentFormGroup.controls['reviewers'].value)" >
+                      {{user.displayName}} 
+                      <mat-icon (click)="onOriginatorSendsReviewReminder(user.upn)" class="return-draft" *ngIf="user.displayName?.indexOf('DL-') == -1 && reviewersToRemind.indexOf(user.upn?.trim()) != -1" [title]="'Ping a Reminder to ' + user.displayName ">call</mat-icon>
+                    </li>
+                  </ul>
+                </div>
+                
+              </div>
+              
+              <div *ngIf="membersAssignmentFormGroup.controls['fyiUsers'].value?.length > 0">
+                <span style="font-style: italic;">Assigned FYI Users ({{membersAssignmentFormGroup.controls['fyiUsers'].value?.length}}) :</span>
+                <div  class="assigned-users">
+                  <ul style="position: relative;">
+                    <li *ngFor="let user of getMembersFullnames(membersAssignmentFormGroup.controls['fyiUsers'].value)" >
+                      {{user}}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+          </div> 
+        </div> 
+        <div class="col-md col-xs-12 stepColumns">                      
+          <div class="panel panel-default" >
+            <form [formGroup]="membersAssignmentFormGroupHint" title="Members Assignment Hint"  #form6 id="membersAssignmentFormGroupHint">
+                
+              <div class="panel-body">
+                <p>HINT</p>              
+
+                <div>
+                    <span style="font-style: italic; font-weight: bold; color: blue;">NEXT ROUND(s):</span>
+                    <ul>
+                      <li *ngIf="reviewRoundsSelected?.length == 0">None</li>
+                      <li  *ngFor="let round of reviewRoundsSelected" title="round">
+                        {{round}}
+                      </li>
+                    </ul>  
+                  </div>
+
+                  <div *ngIf="itemId > 0">
+                    <span style="font-style: italic; font-weight: bold; ">Completed Rounds:</span>
+                    <ul *ngIf="completedRounds?.length == 0 && itemId > 0">
+                      <li >None</li>
+                    </ul>
+                    <ul *ngIf="completedRounds?.length > 0 && itemId > 0">
+                      <li *ngFor="let round of completedRounds" >{{round}}</li>
+                    </ul>
+                  </div>
+
+                  <div *ngIf="itemId > 0 && completedReviewers?.length > 0">
+                    <span  style="font-style: italic; font-weight: bold; color: green;">Cleared By Users ({{completedReviewers?.length}}) :</span>
+                    <ul class="assigned-users" formControlName="completedUsers"  ngDefaultControl >
+                      <li *ngFor="let user of completedReviewers" >{{user}}</li>
+                    </ul>
+                  </div>
+                  
+                  <p><span class="hint-label">Assign Users as Originators:</span>  Select the names  of all originators</p>
+                  <p>
+                    <span class="hint-label">Assign Users as Reviewers:</span>  Enter the names of all reviewers (use DL for all review rounds except Red
+                    Building and PADs and Policy Officials)
+                  </p>
+                  <p>
+                    <span class="hint-label">Assign Users as FYI:</span>  Enter the names of people who should be copied on the package – not a required field
+                  </p>
+                  <p *ngIf="itemId > 0 && draftReviewers?.length > 0">
+                    <span class="hint-label" style="position: relative;">Return Draft<mat-icon style="margin-left: 5px">assignment_return</mat-icon>:</span>  allows originators to send a package back to a reviewer for another review
+                  </p>
+                  <p *ngIf="reviewersToRemind.length > 0">
+                    <span class="hint-label" style="position: relative;">Ping<mat-icon style="margin-left: 5px">call</mat-icon>:</span>  sends a message to reviewers to complete a review
+                  </p>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="errors?.length > 0" class="panel panel-default">
+        <div class="panel-body error"  style="background-color: #fffbf7;" >
+          <div style="color: red;">The following Fields are required:</div>
+          <ol>
+            <li *ngFor="let error of errors" [innerHTML]="error | safe:'html'"></li>
+          </ol>
+        </div>
+      </div>      
+       
+      <div>
+        <button mat-button (click)="onTransactionCancel(membersAssignmentFormGroup)">CANCEL</button>
+        <button mat-button *ngIf="routePath != 'manage'"  matStepperPrevious>BACK</button>
+        <button mat-button *ngIf="routePath != 'manage'"  matStepperNext>NEXT</button>
+        <button mat-button (click)="onManageExistingItemUpdate()" [disabled]="isManageExistingUpdatable == false || !membersAssignmentFormGroup.valid" *ngIf="routePath == 'manage'" >UPDATE</button> 
+      </div>
+    </mat-step>
+
+    <mat-step label="Review & Confirm Details" state="preview"  
+      *ngIf="routePath != 'manage'" >
+      
+      <div style="margin-left: 0px;" class="form-title">
+        <span>Details Confirmation</span> <mat-icon>remove_red_eye</mat-icon> 
+        <span *ngIf="itemId > 0" class="catsid-round">({{catsId}}</span>
+        <span *ngIf="itemId > 0" class="catsid-round" style="font-weight: normal; color: blue;">{{currentRound}}</span>
+        <span *ngIf="itemId > 0" class="catsid-round">{{catsPackageData.correspondence?.letterStatus}})</span>
+      </div>
+      
+      <app-summary 
+        [changeDetectionValue]="changeDetectionValue" 
+        [summaryForms]="summaryForms" 
+        [isPendingLetter]="isLeadPending" 
+        [isEditable]="isEditable"
+        (stepEditEmitter)="onsetSelecetedStep($event)">
+      </app-summary>
+      <div *ngIf="errors?.length > 0 && userRole != 'Copied'" class="panel panel-default">
+        <div class="panel-body error"  style="background-color: #fffbf7;" >
+          <div style="color: red;">The following Fields are required:</div>
+          <ol>
+            <li *ngFor="let error of errors" [innerHTML]="error | safe:'script'"></li>
+          </ol>
+        </div>
+      </div>
+
+      <div style="margin-top: 10px;">
+        <button mat-button *ngIf="parentRoute != undefined" (click)="onTransactionCancel()">CANCEL</button>
+        <button mat-button *ngIf="parentRoute != undefined && parentRoute != 'reviewer'" matStepperPrevious>BACK</button>
+        <button mat-button *ngIf="isResponseRequired == false" (click)="onStepReset()">RESET</button> 
+        <button style="display: none;" mat-button *ngIf="itemId > 0 && isLeadPending == false && parentRoute != 'reviewer' && parentRoute != undefined" >GENERATE CLEARANCE SHEET</button>
+        <button mat-button *ngIf="itemId > 0 && isLeadPending == true" (click)="onPackageReturned()" >RETURN</button> 
+        <button mat-button *ngIf="itemId > 0 && parentRoute == 'reviewer' && routePath == 'rmanage'" (click)="onPackageReviewFinalizedOrCompleted()" >MARK COMPLETE</button>
+        <button mat-button *ngIf="itemId > 0 && parentRoute == 'reviewer' && routePath == 'rdraft'" (click)="onReviewerSendsReviewDraft()" >MARK DRAFT</button>               
+        <button mat-button   (click)="onPackageLaunchReview()" *ngIf="parentRoute === 'originator'" 
+          [disabled]="!documentDetailsFormGroup.valid || !instructionsAttachDocFormGroup.valid || !membersAssignmentFormGroup.valid || !roundsSelectionFormGroup.valid" >
+          <span *ngIf="itemId > 0 && routePath == 'opending'">LAUNCH REVIEW</span>
+          <span *ngIf="itemId > 0 && routePath != 'opending'">LAUNCH NEXT REVIEW</span>
+          <span *ngIf="itemId == 0">START COLLABORATION</span>
+        </button>      
+      </div>
+    </mat-step>
+    
+    <!-- Icon overrides. -->
+    <ng-template matStepperIcon="phone">
+      <mat-icon>call_end</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="home">
+      <mat-icon>account_balance</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="done">
+      <mat-icon>done</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="assignment">
+      <mat-icon>assignment</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="document">
+      <mat-icon>description</mat-icon>
+    </ng-template>    
+    <ng-template matStepperIcon="people">
+      <mat-icon>people</mat-icon>
+    </ng-template>   
+    <ng-template matStepperIcon="preview">
+      <mat-icon>remove_red_eye</mat-icon>
+    </ng-template>
+  </mat-horizontal-stepper>

@@ -1,0 +1,64 @@
+{
+    "id": "app",
+    "title": "NAVIGATION",
+    "sections": [
+        {
+            "name": "",
+            "shortName": "",
+            "menuItems": [
+                {
+                    "text": "Home",
+                    "icon": "home",
+                    "route": "/"
+                },
+                {
+                    "text": "Correspondence",
+                    "icon": "email",
+                    "route": "correspondence"
+                },
+                {
+                    "text": "Originator",
+                    "icon": "send",
+                    "route": "originator"
+                },
+                {
+                    "text": "Reviewer & FYI",
+                    "icon": "verified_user",
+                    "route": "reviewer"
+                },
+                {
+                    "text": "Reporting",
+                    "icon": "report",
+                    "route": "report"
+                },
+                {
+                    "text": "Help",
+                    "icon": "help",
+                    "route": "help"
+                },
+                {
+                    "text": "Email System Support",
+                    "icon": "email",
+                    "route": "help1"
+                }
+            ]
+        },
+        {
+            "name": "ADMINISTRATION",
+            "shortName": "",
+            "menuItems": [
+                {
+                    "text": "Manage CATS Users",
+                    "icon": "people",
+                    "route": "admin/users-settings"
+                },
+                {
+                    "text": "Manage Documents",
+                    "icon": "folder",
+                    "route": "admin/document-operations"
+                }
+            ]
+        }
+    ]
+    
+}

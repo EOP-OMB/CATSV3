@@ -1,0 +1,400 @@
+@import 'material-design-icons-iconfont/dist/material-design-icons.css';
+@import 'materialize-css/dist/css/materialize.css';
+html {
+    color: #212121;
+  }
+  
+  body {
+    background-color: #efefef;
+  }
+  
+  select {
+    display: inherit;
+  }
+  
+  .btn {
+    color: white;
+    background-color: #2196f3;
+  }
+  
+  .btn:hover {
+    background-color: #1976d2;
+  }
+  
+  .btn-floating {
+    background-color: #ff5252;
+  }
+  
+  .btn-floating:hover {
+    background-color: #d50000;
+  }
+  
+  /* component labelling */
+  
+  .component-marker {
+    color: #fff;
+    height: 26px;
+    font-size: 15px;
+    line-height: 26px;
+    padding: 0 9px;
+    border-radius: 12px;
+    background-color: #ff5252;
+    float: right;
+    transform: translate(8px, -8px);
+    grid-area: 1 / 1 / 2 / -1;
+    justify-self: end;
+  }
+  
+  /* Navbar content */
+  
+  nav {
+    height: 64px;
+    line-height: 64px;
+    margin-bottom: 24px;
+  }
+  
+  nav.secondary-nav {
+    line-height: 32px;
+    height: 32px;
+    margin-bottom: 0;
+  }
+  
+  .nav-wrapper {
+    background-color: #2196f3;
+  }
+  
+  .brand-logo {
+    /* Solid background that fades to transparent on the right edge */
+    background: linear-gradient(
+      to right,
+      #2196f3 90%,
+      rgba(33, 150, 243, 0)
+    );
+    margin-left: 10px;
+    height: 64px;
+    overflow: hidden;
+  }
+  
+  
+  
+  /* End Navbar Content */
+  
+  a.btn-floating {
+    float: right;
+  }
+  
+  .green-background {
+    background-color: green;
+  }
+  
+  .card-action .btn {
+    margin-bottom: 5px;
+  }
+  
+  /* CSS grid classes */
+  
+  .two-across,
+  .three-across,
+  .four-across,
+  .narrow-wide {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1.5rem;
+  }
+  
+  .fit-component-marker {
+    grid-template-rows: 5px 1fr;
+  }
+  
+  @media only screen and (min-width: 601px) {
+    .two-across {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .three-across {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .four-across {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .narrow-wide {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+  
+  @media only screen and (min-width: 993px) {
+    .four-across {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  /* Space out buttons a bit */
+  
+  .btn span,
+  .btn-large span,
+  .btn-floating span,
+  .btn-flat span {
+    font-size: 1.3rem;
+    line-height: inherit;
+  }
+
+input[type="radio"] {
+    position: relative !important;
+    opacity: 10 !important;
+    pointer-events: none;
+}
+  
+.email-input.ng-touched.ng-invalid {
+    animation: ohnoes 0.3s ease infinite alternate;
+  }
+  
+@keyframes ohnoes {
+  from {
+    box-shadow: none;
+  }
+  to {
+    box-shadow: 0 0 30px 30px red;
+  }
+} 
+
+.hasError{
+    color: #d50000;
+    font-size: 12px;
+}
+
+.file-field .btn, 
+.file-field .btn-large, 
+.file-field .btn-small {
+  float: left;
+  height: 2rem;
+  line-height: 2rem;
+}
+
+.btn span, 
+.btn-large span, 
+.btn-floating span, 
+.btn-flat span{
+    font-size: 0.9rem;
+    line-height: inherit;
+}
+
+.file-path{
+    margin-top: -30px !important;
+}
+
+.card-title {
+    margin-bottom: 20px !important;
+    font-size: 20px !important;
+}
+
+input{    
+    text-overflow: ellipsis; 
+    overflow: hidden; 
+    white-space: nowrap;
+    font-size: 14px !important;
+}
+
+.document-ref{
+  font-size: small;
+  color: #484343 !important;
+  height: 49px;
+  border-bottom: 1px solid #9e9e9e;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-y: auto;
+}
+
+.document-ref a {
+  color: #484343 !important;
+}
+
+.btn{
+  background-color: #909496;
+}
+
+.radioLabel{
+  margin-left: 10px;
+  margin-bottom: 4px;
+}
+
+label {
+  color: rgba(11, 21, 136, 0.87);
+  font-size: 14px;
+}
+
+textarea {
+  height: 1.83rem;
+  min-height: 1.83rem;
+}
+
+.mat-form-field{
+  width: 100%;
+  padding-bottom: 0.96em;
+}
+
+::ng-deep .mat-option-text{
+  font-size: 14px !important;
+}
+::ng-deep .mat-option {
+  height: 30px!important;
+}
+
+::ng-deep .mat-option > a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+::ng-deep div.mat-checkbox-inner-container {
+  height: 14px;
+  width: 14px;
+  flex-shrink: 0;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #005691;
+  /*background-color: #989294;*/
+  
+}
+
+::ng-deep .mat-select-value-text{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  float: left;
+  
+}
+
+::ng-deep .mat-optgroup-label{
+  background-color: aliceblue;
+}
+
+::ng-deep .divrow{
+  max-height: 85px !important;
+  position: relative;
+  z-index: 1;
+}
+
+::ng-deep textarea{
+  z-index: 10;
+  background-color: white;
+}
+
+::ng-deep .onClearance{
+  position: absolute;
+  bottom: 22px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+::ng-deep .onClearance:hover{
+  color: #0a0a0a;
+  text-decoration: underline;
+}
+
+::ng-deep .mat-checkbox{
+  margin-left: 10px;
+}
+
+::ng-deep .mat-checkbox-layout{
+  height: 9px;
+}
+
+::ng-deep .mat-checkbox-layout .mat-checkbox-label {
+  line-height: 14px;
+}
+
+::ng-deep .card-content{
+  
+}
+
+
+#status{
+  height: 25px;
+}
+
+::ng-deep .hasErrorForControlSelect  {
+  position: absolute;
+  top:45px;
+
+}
+
+::ng-deep .autocomppleteBox{
+  margin: 5px 5px 5px 10px !important;
+  width: 90% !important;
+  height: 25px !important;
+  padding: 2px !important;
+}
+
+::ng-deep .mat-select {
+  padding-bottom: 10px;
+}
+
+::ng-deep .mat-select-panel{
+  max-width: 200px !important;
+}
+
+::ng-deep .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+  background-color: #95959a;
+}
+
+::ng-deep .mat-icon {
+  height: 25px;
+  width: 24px;
+}
+
+::ng-deep .mat-raised-button{
+  min-width: 30px;
+  padding: 0px;
+}
+
+.otherSignersTextBtn:hover{
+  background-color:rgb(65, 57, 57);
+}
+
+::ng-deep .placeholder{
+  color: rgba(88, 21, 21, 0.54) !important;
+  font-size: 12px !important;
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-label, .mat-select-placeholder {
+  color: rgba(88, 21, 21, 0.54) !important;
+  font-size: 12px !important;
+}
+
+::ng-deep .mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: rgb(2, 95, 2) !important;;
+} 
+
+
+
+::ng-deep .mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: rgb(0, 5, 0) !important;
+} 
+
+#selectControlText{
+  height: 36px;
+  margin-left:5px;  
+  margin-right:5px;
+  width: 90%;
+  border: none;
+}
+
+#selectControlText:focus {
+  /*change color of underline when focused*/
+  border-color: transparent !important;
+} 
+
+.selectControlTextBtn {
+  /* background-color: #15131300 !important; */
+  border: none;
+  color: black;
+  width: 5%;
+  background-color: #d2dada;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.selectControlTextBtn:hover{
+  background-color: rgb(235, 240, 240) !important;
+}

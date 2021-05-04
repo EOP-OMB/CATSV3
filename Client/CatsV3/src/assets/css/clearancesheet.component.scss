@@ -1,0 +1,499 @@
+/*
+ * Overriding Microsoft SharePoint Styles from corev15.css
+ */
+ input[type=button],
+ input[type=reset],
+ input[type=submit],
+ button {
+ min-width:0em;
+ }
+ 
+ /*
+  * Base structure
+  */
+ 
+ /* Move down content because we have a fixed navbar that is 3.5rem tall */
+ body {
+ /*  padding-top: 3.5rem; */
+ }
+ 
+ /*
+  * Typography
+  */
+ 
+ h1 {
+   padding-bottom: 9px;
+   margin-bottom: 20px;
+   border-bottom: 1px solid #eee;
+ }
+ 
+ /*
+  * Sidebar
+  */
+
+  .no-print{
+    display:none !important;
+  }
+ 
+ .sidebar {
+   position: fixed;
+   top: 51px;
+   bottom: 0;
+   left: 0;
+   z-index: 1000;
+   padding: 20px 0;
+   overflow-x: hidden;
+   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+   border-right: 1px solid #eee;
+ }
+ 
+ .sidebar .nav {
+   margin-bottom: 20px;
+ }
+ 
+ .sidebar .nav-item {
+   width: 100%;
+ }
+ 
+ .sidebar .nav-item + .nav-item {
+   margin-left: 0;
+ }
+ 
+ .sidebar .nav-link {
+   border-radius: 0;
+ }
+ 
+ /*
+  * Dashboard
+  */
+ 
+ /* Placeholders */
+ .placeholders {
+   padding-bottom: 3rem;
+ }
+ 
+ .placeholder img {
+   padding-top: 1.5rem;
+   padding-bottom: 1.5rem;
+ }
+ 
+ /*** OMB CATS Styles Below Here... ***/
+ 
+ .img-omb-seal {
+     height: 80px;
+     width: 100%;
+     padding-top: 0px;
+     background-color: rgb(251,248,249);
+     /*background-image: url('/sites/CATSV2/_catalogs/masterpage/OMBCATS/WUI_v1/share/images/OMB_Seal_4_mh.png');
+     background-image: url('../share/images/OMB_Seal_4_mh.png');*/
+     background-repeat: no-repeat;
+     background-position-y: 2px;
+     background-position-x: 15px;
+ }
+ 
+ a.omb-cats-top-admin-nav-link-style1 { color: rgb(125, 102, 13); text-decoration:none; }
+ a.omb-cats-top-admin-nav-link-style1:focus { outline:none; }
+ a.omb-cats-top-admin-nav-link-style1:link { color: rgb(125, 102, 13); text-decoration:none; }
+ a.omb-cats-top-admin-nav-link-style1:visited { color: rgb(125, 102, 13); text-decoration:none; }
+ a.omb-cats-top-admin-nav-link-style1:active { color: rgb(125, 102, 13); text-decoration:none; }
+ a.omb-cats-top-admin-nav-link-style1:hover { color: rgb(125, 102, 13); text-decoration:underline; }
+ 
+ a.omb-cats-top-nav-link-style1 { color: rgb(251, 248, 249); text-decoration:none; }
+ a.omb-cats-top-nav-link-style1:focus { outline:none; }
+ a.omb-cats-top-nav-link-style1:link { color: rgb(251, 248, 249); text-decoration:none; }
+ a.omb-cats-top-nav-link-style1:visited { color: rgb(251, 248, 249); text-decoration:none; }
+ a.omb-cats-top-nav-link-style1:active { color: rgb(251, 248, 249); text-decoration:none; }
+ a.omb-cats-top-nav-link-style1:hover { color: rgb(251, 248, 249); text-decoration:underline; }
+ 
+ a.omb-cats-top-nav-menu-link-style1 { color: #FFFFFF; text-decoration:none; }
+ a.omb-cats-top-nav-menu-link-style1:focus { outline:none; }
+ a.omb-cats-top-nav-menu-link-style1:link { color: #FFFFFF; text-decoration:none; }
+ a.omb-cats-top-nav-menu-link-style1:visited { color: #FFFFFF; text-decoration:none; }
+ a.omb-cats-top-nav-menu-link-style1:active { color: #FFFFFF; text-decoration:none; }
+ a.omb-cats-top-nav-menu-link-style1:hover { color: #42416E; text-decoration:underline; }
+ 
+ a.omb-cats-homepage-dashboards-link-style1 { color: rgb(251, 248, 249); text-decoration:none; }
+ a.omb-cats-homepage-dashboards-link-style1:focus { outline:none; }
+ a.omb-cats-homepage-dashboards-link-style1:link { color: rgb(251, 248, 249); text-decoration:none; }
+ a.omb-cats-homepage-dashboards-link-style1:visited { color: rgb(251, 248, 249); text-decoration:none; }
+ a.omb-cats-homepage-dashboards-link-style1:active { color: rgb(251, 248, 249); text-decoration:none; }
+ a.omb-cats-homepage-dashboards-link-style1:hover { color: rgb(251, 248, 249); text-decoration:underline; }
+ 
+ a.omb-cats-dashboards-list-link-style1 { color: rgb(125, 102, 13); text-decoration:none; }
+ a.omb-cats-dashboards-list-link-style1:focus { outline:none; }
+ a.omb-cats-dashboards-list-link-style1:link { color: rgb(125, 102, 13); text-decoration:none; }
+ a.omb-cats-dashboards-list-link-style1:visited { color: rgb(125, 102, 13); text-decoration:none; }
+ a.omb-cats-dashboards-list-link-style1:active { color: rgb(125, 102, 13); text-decoration:none; }
+ a.omb-cats-dashboards-list-link-style1:hover { color: rgb(125, 102, 13); text-decoration:underline; }
+ 
+ a.omb-cats-UserPreferredName-link-style1 { color: rgb(41, 40, 61); text-decoration:none; }
+ a.omb-cats-UserPreferredName-link-style1:focus { outline:none; }
+ a.omb-cats-UserPreferredName-link-style1:link { color: rgb(41, 40, 61); text-decoration:none; }
+ a.omb-cats-UserPreferredName-link-style1:visited { color: rgb(41, 40, 61); text-decoration:none; }
+ a.omb-cats-UserPreferredName-link-style1:active { color: rgb(41, 40, 61); text-decoration:none; }
+ a.omb-cats-UserPreferredName-link-style1:hover { color: rgb(41, 40, 61); text-decoration:underline; }
+ 
+ .badge-omb-primary { color: #ffffff; background-color: #42416e; border: 1px solid #42416e; }
+ .badge-omb-primary:hover { color: #ffffff; background-color: #303052; border: 1px solid #303052; }
+ .badge-omb-primary:visited { color: #ffffff; background-color: #42416e; border: 1px solid #42416e; }
+ 
+ .btn-omb-outline-info-sm-override {
+     font-size: 0.67rem;
+ /*
+     border-color: #42416e;
+     color: #42416e;
+ */
+ }
+ 
+ .btn-omb-outline-info-sm-override:hover {
+     font-size: 0.67rem;
+ /*	
+     border-color: #42416e;
+     background-color: #42416e;
+     color: #ffffff;
+ */
+ }
+ 
+ .btn-omb-outline-primary-sm-override {
+     font-size: 0.67rem;
+     border-color: #42416e;
+     color: #42416e;
+ }
+ 
+ .btn-omb-outline-primary-sm-override:hover {
+     font-size: 0.67rem;
+     border-color: #42416e;
+     background-color: #42416e;
+     color: #ffffff;
+ }
+ 
+ .btn-omb-outline-primary-filter-sm-override {
+     font-size: 0.67rem;
+     color: #42416e;
+     background-color: #ffffff;
+     border-color: #42416e;
+ }
+ 
+ .btn-omb-outline-primary-filter-sm-override.active {
+     font-size: 0.67rem;
+     color: #ffffff;
+     background-color: #42416e;
+     border-color: #42416e;
+ }
+ 
+ .btn-omb-outline-primary-filter-sm-override:hover {
+     font-size: 0.67rem;
+     color: #ffffff;
+     background-color: #42416e;
+     border-color: #42416e;
+ }
+ 
+ .btn-omb-outline-primary-filter-newcollab-sm-override {
+     font-size: 0.67rem;
+     color: #467475;
+     background-color: mintcream;
+     border-color: #467475;
+ }
+ 
+ .btn-omb-outline-primary-filter-newcollab-sm-override:hover {
+     font-size: 0.67rem;
+     color: #ffffff;
+     background-color: #52888A;
+     border-color: #467475;
+ }
+ 
+ .btn-omb-outline-primary-filter-load-surrogate-sm-override {
+     font-size: 0.67rem;
+     color: #604F8A;
+     background-color: #FFF0FF;
+     border-color: #604F8A;
+ }
+ 
+ .btn-omb-outline-primary-filter-load-surrogate-sm-override.active {
+     font-size: 0.67rem;
+     color: #ffffff;
+     background-color: #8D74C9;
+     border-color: #604F8A;
+ }
+ 
+ .btn-omb-outline-primary-filter-load-surrogate-sm-override:hover {
+     font-size: 0.67rem;
+     color: #ffffff;
+     background-color: #8D74C9;
+     border-color: #604F8A;
+ }
+ 
+ .dropright #cifilter-load-surrogate-dropdown-button-ID::after {
+     display: inline-block;
+     width: 0;
+     height: 0;
+     margin-left: .255em;
+     vertical-align: -0.08em;
+     content: "";
+     border-top: .46em solid transparent;
+     border-left: .66em solid;
+     border-bottom: .46em solid transparent;
+ }
+ 
+ .dropdown-omb-menu-item:hover {
+     background-color: #fff;
+ }
+ 
+ .btn-omb-outline-primary-filter-archive-sm-override {
+     font-size: 0.67rem;
+     color: chocolate;
+     background-color: floralWhite;
+     border-color: chocolate;
+ }
+ 
+ .btn-omb-outline-primary-filter-archive-sm-override.active {
+     font-size: 0.67rem;
+     color: #ffffff;
+     background-color: #d39e00;
+     border-color: #c69500;
+ }
+ 
+ .btn-omb-outline-primary-filter-archive-sm-override:hover {
+     font-size: 0.67rem;
+     color: #ffffff;
+     background-color: #d39e00;
+     border-color: #c69500;
+ }
+ 
+ .btn-omb-outline-danger-sm-override {
+     font-size: 0.67rem;
+ /*
+     border-color: #42416e;
+     color: #42416e;
+ */
+ }
+ 
+ .btn-omb-outline-danger-sm-override:hover {
+     font-size: 0.67rem;
+ /*	
+     border-color: #42416e;
+     background-color: #42416e;
+     color: #ffffff;
+ */
+ }
+ 
+ .btn-omb-dataviewer-normal {
+     color: #ffffff;
+     background-color: #42416e;
+     border: 1px solid #42416e;
+ }
+ 
+ .btn-omb-dataviewer-normal:hover {
+     color: #ffffff;
+ /*	background-color: #303052;	*/
+     border: 1px solid #303052;
+ }
+ 
+ .col-omb-dataviewer-label {
+     font-weight: bold; text-align: right; color: #0c5460; padding-top: 10px; padding-bottom: 10px;
+ }
+ 
+ .col-omb-dataviewer-field {
+     font-weight: normal; 
+     text-align: left; 
+     color: #0c5460; 
+     /*border-bottom: 1px solid #ddd; */
+     padding-top: 10px; padding-bottom: 10px;
+ }
+ 
+ .omb-cats-page-body-wrapper-CLASS {
+     float:left;
+     margin: 0px;
+     min-height:100px;
+     min-width:995px;	    
+     background: #ffffff;
+ }
+ 
+ .omb-cats-widget-content-area-body-CLASS {
+     background-color:#fff;
+     border-left: #fff 1px solid;
+     border-top: #fff 1px solid;
+     border-right: #fff 1px solid;
+     border-bottom: #fff 1px solid;
+     padding: 8px;
+     padding-bottom: 0px;
+     color: #666;
+     background:transparent;
+ }
+ 
+ .omb-cats-widget-content-area-body-CLASS {
+     background-color:#fff;
+     border-left: #fff 1px solid;
+     border-top: #fff 1px solid;
+     border-right: #fff 1px solid;
+     border-bottom: #fff 1px solid;
+     padding: 8px;
+     padding-bottom: 0px;
+     color: #666;
+     background:transparent;
+ }
+ 
+ .omb-cats-form-section-containers-CLASS {
+     float: left; width: 100%; margin-bottom: 15px;
+ }
+ 
+ .omb-cats-dashboard-td-styles-CLASS {
+     vertical-align: top;
+ }
+ 
+ .omb-cats-dashboard-td-C2-styles-CLASS {
+     vertical-align: top;
+     min-width: 210px;
+     max-width: 210px;
+ }
+ 
+ .omb-cats-dashboard-td-C10-styles-CLASS {
+     vertical-align: top;
+     min-width: 180px;
+     max-width: 180px;
+ }
+ 
+ .omb-cats-dashboard-RR-table-thead-bg {
+    background-color: rgba(235, 190, 31, 0.5);
+ }
+ 
+ .omb-cats-dashboard-RR-table-c00 {
+     min-width: 100px;
+ }
+ 
+ .omb-cats-dashboard-RR-table-c01 {
+     min-width: 100px;
+ }
+ 
+ .omb-cats-dashboard-RR-table-c02 {
+     min-width: 210px;
+ }
+ 
+ .omb-cats-dashboard-RR-table-c03 {
+     min-width: 210px;
+ }
+ 
+ /* LOADER */
+ 
+ .sk-circle {
+   /* margin: 100px auto; */
+   width: 40px;
+   height: 40px;
+   position: relative;
+ }
+ .sk-circle .sk-child {
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   left: 0;
+   top: 0;
+ }
+ .sk-circle .sk-child:before {
+   content: '';
+   display: block;
+   margin: 0 auto;
+   width: 15%;
+   height: 15%;
+   background-color: rgb(125, 102, 13);
+   border-radius: 100%;
+   -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
+           animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
+ }
+ .sk-circle .sk-circle2 {
+   -webkit-transform: rotate(30deg);
+       -ms-transform: rotate(30deg);
+           transform: rotate(30deg); }
+ .sk-circle .sk-circle3 {
+   -webkit-transform: rotate(60deg);
+       -ms-transform: rotate(60deg);
+           transform: rotate(60deg); }
+ .sk-circle .sk-circle4 {
+   -webkit-transform: rotate(90deg);
+       -ms-transform: rotate(90deg);
+           transform: rotate(90deg); }
+ .sk-circle .sk-circle5 {
+   -webkit-transform: rotate(120deg);
+       -ms-transform: rotate(120deg);
+           transform: rotate(120deg); }
+ .sk-circle .sk-circle6 {
+   -webkit-transform: rotate(150deg);
+       -ms-transform: rotate(150deg);
+           transform: rotate(150deg); }
+ .sk-circle .sk-circle7 {
+   -webkit-transform: rotate(180deg);
+       -ms-transform: rotate(180deg);
+           transform: rotate(180deg); }
+ .sk-circle .sk-circle8 {
+   -webkit-transform: rotate(210deg);
+       -ms-transform: rotate(210deg);
+           transform: rotate(210deg); }
+ .sk-circle .sk-circle9 {
+   -webkit-transform: rotate(240deg);
+       -ms-transform: rotate(240deg);
+           transform: rotate(240deg); }
+ .sk-circle .sk-circle10 {
+   -webkit-transform: rotate(270deg);
+       -ms-transform: rotate(270deg);
+           transform: rotate(270deg); }
+ .sk-circle .sk-circle11 {
+   -webkit-transform: rotate(300deg);
+       -ms-transform: rotate(300deg);
+           transform: rotate(300deg); }
+ .sk-circle .sk-circle12 {
+   -webkit-transform: rotate(330deg);
+       -ms-transform: rotate(330deg);
+           transform: rotate(330deg); }
+ .sk-circle .sk-circle2:before {
+   -webkit-animation-delay: -1.1s;
+           animation-delay: -1.1s; }
+ .sk-circle .sk-circle3:before {
+   -webkit-animation-delay: -1s;
+           animation-delay: -1s; }
+ .sk-circle .sk-circle4:before {
+   -webkit-animation-delay: -0.9s;
+           animation-delay: -0.9s; }
+ .sk-circle .sk-circle5:before {
+   -webkit-animation-delay: -0.8s;
+           animation-delay: -0.8s; }
+ .sk-circle .sk-circle6:before {
+   -webkit-animation-delay: -0.7s;
+           animation-delay: -0.7s; }
+ .sk-circle .sk-circle7:before {
+   -webkit-animation-delay: -0.6s;
+           animation-delay: -0.6s; }
+ .sk-circle .sk-circle8:before {
+   -webkit-animation-delay: -0.5s;
+           animation-delay: -0.5s; }
+ .sk-circle .sk-circle9:before {
+   -webkit-animation-delay: -0.4s;
+           animation-delay: -0.4s; }
+ .sk-circle .sk-circle10:before {
+   -webkit-animation-delay: -0.3s;
+           animation-delay: -0.3s; }
+ .sk-circle .sk-circle11:before {
+   -webkit-animation-delay: -0.2s;
+           animation-delay: -0.2s; }
+ .sk-circle .sk-circle12:before {
+   -webkit-animation-delay: -0.1s;
+           animation-delay: -0.1s; }
+ 
+ @-webkit-keyframes sk-circleBounceDelay {
+   0%, 80%, 100% {
+     -webkit-transform: scale(0);
+             transform: scale(0);
+   } 40% {
+     -webkit-transform: scale(1);
+             transform: scale(1);
+   }
+ }
+ 
+ @keyframes sk-circleBounceDelay {
+   0%, 80%, 100% {
+     -webkit-transform: scale(0);
+             transform: scale(0);
+   } 40% {
+     -webkit-transform: scale(1);
+             transform: scale(1);
+   }
+ }
+ 

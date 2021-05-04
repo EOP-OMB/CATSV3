@@ -1,0 +1,25 @@
+<section class="card" style="margin-top: 20px;">
+    <div class="card-content">
+      <div class="card-title" *ngIf="actingUserRole.indexOf('SURROGATE') == -1">Access Forbidden for the Acting {{actingUserRole}} <span style="font-weight: normal;">"{{actingUser}}"</span> </div>
+      <div class="card-title" *ngIf="actingUserRole.indexOf('SURROGATE') != -1">Access Forbidden for the Acting {{actingUserRole}} for  <span style="font-weight: normal;">"{{actingUser}}"</span></div>
+      <p *ngIf="actingUserRole == 'Impersonated User'">
+        Click the following button to Cancel the Impersonation        
+        <button (click)="onCancelImpersonation()" mat-stroked-button color="primary" style="margin-left: 10px;">Clear Impersonation</button>
+      </p>
+      <p>Sorry, you don't have access to this ressource :-(</p>
+      <p *ngIf="isCorresponceTeam && isOriginator && isReviewer && isSurrogateOriginator && isSurrogateReviewer">
+        Unfortunately our system could not process your request, because you are not one of the participating members.<br>Please reach out to the CATS System Operators for further assistance.
+               
+      </p>
+      <p *ngIf="isCorresponceTeam || isOriginator || isReviewer || isSurrogateOriginator || isSurrogateReviewer">
+        <span>You may be authorized to access the following Resources:<br/></span>        
+      </p>
+      <ul *ngIf="isCorresponceTeam || isOriginator || isReviewer || isSurrogateOriginator || isSurrogateReviewer">
+        <li *ngIf="isCorresponceTeam == true">Correspondence Dashboard</li>
+        <li *ngIf="isOriginator == true || isSurrogateOriginator == true">Originator Dashboard</li>
+        <li *ngIf="isReviewer == true || isSurrogateReviewer == true">Reviewer Dashboard</li>
+      </ul>
+      <p> Thank you.</p>
+      <p><a routerLink="/home">Return to Home</a></p>
+    </div>
+  </section>

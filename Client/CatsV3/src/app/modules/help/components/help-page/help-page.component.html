@@ -1,0 +1,45 @@
+<div  class="row helpdocumentpage" style="background-color: none;border-radius: 4px; padding: 10px;">
+	<div class="col-xs-12 col-sm-12 col-lg-4">
+		<div class="row">
+			<section class="card" style="background-color: transparent; border:none" >
+				<div class="card-content">
+				  <div class="card-title">
+                    <mat-list >
+                      <div  *ngFor="let doc of helpDocuments;let i = index" >
+
+                        <mat-list-item class="mat-list-item-style" *ngIf="doc.isDevider ==  false && doc.title != 'Divider' && doc.isExternal == false" (click)="onshowDocument(doc.url, i)" [style.background]="selected==i?'gainsboro':''" >
+                            <mat-icon class="help-document" title="Refresh the reports" style="cursor: pointer; font-size: 20px;">{{doc.icon}}</mat-icon> 
+                            <span class="help-document" >{{doc.title}}</span>
+                        </mat-list-item>
+
+                        <mat-list-item class="mat-list-item-style" *ngIf="doc.isExternal == true" [style.background]="selected==i?'gainsboro':''" >
+                            <mat-icon class="help-document" title="Refresh the reports" style="cursor: pointer; font-size: 20px;">{{doc.icon}}</mat-icon> 
+                            <a class="help-document" [href]="doc.url"   target="_blank">{{doc.title}}</a>
+                            <!-- <a  class="help-document" routerLink="/redirect" [queryParams]="{ url: doc.url}">
+                              {{doc.title}}
+                            </a> -->
+                        </mat-list-item>
+
+                        <mat-divider  *ngIf="doc.isDevider ==  true || doc.title == 'Divider'" ></mat-divider>
+                      </div>
+                    </mat-list> 
+				  </div> 
+				</div>
+			  </section>			  
+		</div>
+	
+	</div>
+	<div class="col-xs-12 col-sm-12 col-lg-8">
+        <section class="card"  style="background-color: transparent; border:none" >
+            <!-- <pdf-viewer [src]="'assets/helpdocuments/Introduction to CATS 8-30-18.pdf'" 
+              [render-text]="true"
+              style="display: block;" ></pdf-viewer> -->
+
+              <div class="pdf-container">
+                <pdf-viewer [src]="documentUrl" 
+                            [original-size]="false"></pdf-viewer>
+              </div>
+         
+        </section>       
+	</div>
+</div>

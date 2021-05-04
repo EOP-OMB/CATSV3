@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Hi {{data.name}}</h1>
+<div mat-dialog-content>
+  <p [innerHTML]="data.title | safe:'html'"></p>
+  <form [formGroup]="form" >
+    <mat-form-field >
+      <mat-label>{{data.label}}</mat-label>
+      <input formControlName="promptInput" matInput [(ngModel)]="data.valueReturned">
+    </mat-form-field>
+
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button type="submit"  (click)="onYesClick()" [mat-dialog-close]="data.valueReturned" [disabled]="form.invalid" cdkFocusInitial>Ok</button>
+  <button style="display: none;" #noThankBtn mat-button type="button" (click)="onNoClick()">{{noThanksLabel}}</button>
+  <button mat-button mat-dialog-close  (click)="onCancel()">Cancel</button>
+</div>

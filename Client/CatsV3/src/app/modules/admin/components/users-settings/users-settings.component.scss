@@ -1,0 +1,147 @@
+::ng-deep .helpdocumentpage  .help-document{
+    display:inline-flex !important;
+    margin-right: 10px;    
+    margin-right: 10px;
+    vertical-align: bottom;
+    font-size: 14px;
+}
+
+::ng-deep .helpdocumentpage  .mat-list-item-style{
+    height: 38px !important;
+}
+
+::ng-deep .helpdocumentpage  .mat-list-item-content:hover{
+    background-color: gainsboro;
+    height: 38px !important;
+}
+
+::ng-deep .helpdocumentpage  .mat-list-item-content{
+    cursor: pointer;
+}
+
+::ng-deep pdf-viewer {
+    display: block;
+    height: 100vh;
+    border-radius: 4px;
+  }
+
+.mat-divider {
+    border-top-color: #85929e;
+    display: none;
+}
+
+.card {
+    width: 100%;
+}
+
+.card-header{
+    font-weight: bold;
+}
+
+.card-content{
+    max-height: 500px;
+    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.mat-list-base {
+    padding-top: 1px;
+}
+
+.material-icons{
+    color: dimgray;
+    position: absolute;
+    right: 0px;
+    top: 6px;
+}
+
+.office-label{
+    font-style: italic;
+    font-weight: bold;
+    margin-left: 5px;
+    font-size: 13px;
+}
+
+.full-width{
+    width: 95%;
+    position: relative;
+}
+.mat-option{
+    font-size: 14px;
+    height: 24px;
+}
+
+
+.maticon{    
+    margin-bottom: 8px !important;
+    color: dimgray;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.onSearchIcon {    
+    margin-top: -10px !important;
+    cursor: pointer;
+    font-size: 34px;
+}
+
+.clear-user-selection{
+    right: 20px;
+    font-size: 20px;
+    cursor:pointer;
+    color:#b5aeae;
+}
+
+.select-user{
+    display:table-cell;
+    position:relative;
+}
+
+::ng-deep .entity-choice  .mat-radio-label-content{
+    font-style: italic;
+    font-weight: bold;
+    color: darkblue;
+}
+
+::ng-deep .user-selection .mat-tab-body-content {
+    height: 100%;
+    overflow:hidden;
+}
+
+.mat-elevation-z8 .material-icons{
+    position: relative;
+}
+
+table {
+    width: 100%;
+  }
+th.mat-header-cell{
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #d6d9dc;
+}
+
+tr.mat-header-row {
+    height: 40px;
+    border-radius: 4px;
+}
+
+tr.mat-row, tr.mat-footer-row {
+    height: 40px;
+}
+
+.cdk-column-userFullName{
+    width: 45%;
+}
+
+.cdk-column-EntityName{
+    width: 40%;
+}
+.mat-row:nth-child(even), .mat-list-item:nth-child(even){
+    background-color: rgb(240, 233, 233);
+}
+        
+.mat-row:nth-child(odd), .mat-list-item:nth-child(odd){
+    background-color:transparent;
+}

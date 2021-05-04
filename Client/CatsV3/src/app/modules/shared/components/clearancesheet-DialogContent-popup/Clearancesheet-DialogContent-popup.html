@@ -1,0 +1,11 @@
+
+<mat-dialog-content class="mat-typography">
+    <app-clearancesheet [inComingCATSID]="data.CATSID">
+
+    </app-clearancesheet>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button (click)="printDiv()" >Print</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial hidden>Install</button>
+</mat-dialog-actions>

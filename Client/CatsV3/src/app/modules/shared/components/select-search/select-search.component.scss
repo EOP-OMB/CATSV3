@@ -1,0 +1,160 @@
+@import 'material-design-icons-iconfont/dist/material-design-icons.css';
+@import 'materialize-css/dist/css/materialize.css';
+html {
+    color: #212121;
+  }
+  
+  body {
+    background-color: #efefef;
+  }
+  
+  select {
+    display: inherit;
+  }
+  
+  /* CSS grid classes */
+  
+  .two-across,
+  .three-across,
+  .four-across,
+  .narrow-wide {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1.5rem;
+  }
+  
+  
+
+.hasError{
+    color: #d50000;
+    font-size: 12px;
+    top:40px;
+}
+
+label {
+  color: rgba(11, 21, 136, 0.87);
+  font-size: 14px;
+}
+
+.mat-form-field{
+  width: 100%;
+  padding-bottom: 0.96em;
+}
+
+::ng-deep div.mat-checkbox-inner-container {
+  height: 14px;
+  width: 14px;
+  flex-shrink: 0;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #005691;
+  /*background-color: #989294;*/
+  
+}
+
+::ng-deep .mat-select-value-text{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  float: left;
+  width: 100%;
+}
+
+::ng-deep .mat-checkbox{
+  margin-left: 10px;
+}
+
+::ng-deep .mat-checkbox-layout{
+  height: 9px;
+}
+
+::ng-deep .mat-checkbox-layout .mat-checkbox-label {
+  line-height: 14px;
+}
+
+::ng-deep .mat-flat-button.mat-primary, .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+  background-color: #95959a;
+}
+
+::ng-deep .select-search  .mat-select-search-panel {
+  /* allow absolute positioning relative to outer options container */
+  transform: none !important;
+  max-height: 350px;
+  padding-top: 15px;
+}
+
+.mat-select-search-inside-mat-option,
+.mat-select-search-input{  
+  height: 70px !important;
+  top: -20px !important;
+}
+
+
+::ng-deep .mat-select-search-inner {
+  position: absolute !important;
+  top: -10px !important;
+  height: 30px;
+  border: 1px solid transparent !important;
+  border-radius: 4px 4px 0 0;
+}
+
+::ng-deep .mat-select-search-innerNew {
+  position: absolute !important;
+  top: 0 !important;
+  border: none;
+}
+
+::ng-deep .select-search .mat-select-search-toggle-all-checkbox {
+  padding-left: 7px !important;
+  padding-bottom: 0 !important;
+}
+
+.mat-selected-option-panel{
+  z-index: 1000;
+  background-color:white;
+  width:100%;
+  overflow: hidden;
+  overflow-y: auto;
+  max-height: 150px;
+  border-bottom: 1px dotted rgb(207, 203, 203);
+  margin-bottom: 5px;
+}
+
+.mat-selected-available-option-panel{
+  width:100%;
+  overflow: hidden;
+  overflow-y: auto;
+  max-height: 150px;
+
+}
+
+.addOptionOldLetter {
+  position: absolute;
+  top: -14px;
+  left: 5px;
+  z-index: 100;
+  cursor: pointer;
+  font-size: 20px;
+  color: blue;
+}
+.addOptionNewLetter:hover, .addOptionOldLetter:hover{
+  color: lightgray;
+}
+
+::ng-deep .select-search .mat-select-search-input{
+  padding-left: 30px !important;
+  padding-top: 10px !important;
+}
+
+::ng-deep .mat-select-search-inside-mat-option .mat-select-search-input {
+}
+
+::ng-deep .myPanelClass{
+  margin-top: 40px !important;
+  margin-left: 10px;
+}
+
+::ng-deep .select-search .mat-select-panel{
+  /*max-height: none!important;*/
+  overflow: hidden;
+}

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Sharepoint\**" />
+    <EmbeddedResource Remove="Sharepoint\**" />
+    <None Remove="Sharepoint\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Services\SharepointService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.8.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mod.CatsV3.Domain\Mod.CatsV3.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

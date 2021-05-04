@@ -1,0 +1,204 @@
+  
+    <div class="row rounds-setting" >
+      <div class="col-md-6 col-xs-12" style="position: relative;"> 
+        <form [formGroup]="itemsForm">
+            <mat-form-field style="float: left" class="col-md-3 col-xs-12">
+                <mat-select formControlName="itemStatus" (selectionChange)="onItemStatusChanged($event)"  placeholder="Status">
+                    <mat-option *ngFor="let s of status" [value]="s">
+                      {{s}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            
+            <mat-form-field style="float: right" class="col-md-3 col-xs-12">
+              <input #in (input)="dataSource.queryBy({search: in.value})" type="text"  placeholder="Search" matInput>
+            </mat-form-field>
+        </form> 
+
+        <div>
+         
+          <table mat-table [dataSource]="dataSource" matSort  (matSortChange)="sortBy($event)" matSortActive="catsid" matSortStart="asc" matSortDisableClear class="mat-elevation-z1">
+
+             <ng-container matColumnDef="icon">
+                <th mat-header-cell *matHeaderCellDef  ></th>
+                <td mat-cell *matCellDef="let element"> 
+                  <mat-icon [title]="element?.adminClosureReason" >{{element?.icon}}</mat-icon>  
+                </td>
+             </ng-container>
+              
+               
+             <ng-container matColumnDef="catsid">
+               <th mat-header-cell *matHeaderCellDef  mat-sort-header > CATS ID </th>
+               <td mat-cell *matCellDef="let row">
+                 <mat-checkbox #matCheckItem (click)="$event.stopPropagation()"  class="cell-catsid-label"
+                               (change)="$event ? selection.toggle(row) : null" (change)="onGetRecord(row, $event.checked)"
+                               [checked]="selection.isSelected(row)" 
+                               [value]="row?.catsid">
+                               <div [title]="'Load the documents for ' +row?.catsid" >{{row?.catsid}}</div>
+                                                                  
+                 </mat-checkbox>
+               </td>
+             </ng-container>
+             
+             <ng-container matColumnDef="leadOfficeName">
+                 <th mat-header-cell *matHeaderCellDef  mat-sort-header> Lead Office </th>
+                 <td mat-cell *matCellDef="let element"> <div [title]="element?.leadOfficeName" class="cell-content">{{element?.leadOfficeName}} </div></td>
+             </ng-container>
+
+             
+             <ng-container matColumnDef="currentReview">
+                 <th mat-header-cell *matHeaderCellDef  mat-sort-header> Review Round </th>
+                 <td mat-cell *matCellDef="let element">  <div [title]="element?.currentReview" class="cell-content">{{element?.currentReview}} </div> </td>
+             </ng-container>
+
+             
+             <ng-container matColumnDef="letterStatus">
+                 <th mat-header-cell *matHeaderCellDef > Status </th>
+                 <td mat-cell *matCellDef="let element"> <div [title]="element?.letterStatus" class="cell-content">{{element?.letterStatus}} </div> </td>
+             </ng-container>
+
+             
+             <ng-container matColumnDef="action">
+                 <th mat-header-cell *matHeaderCellDef >  </th>
+                 <td mat-cell *matCellDef="let row"> 
+                   <mat-icon class="action-icon"  *ngIf="letterStatus != 'Deleted'" [title]="'Delete Item ' + row?.catsid " (click)="onItemDeleted(row.id, row.catsid)">remove_circle</mat-icon> 
+                   <mat-icon class="action-icon" *ngIf="letterStatus == 'Deleted'"  [title]="'Restore Item ' + row?.catsid "  (click)="onItemRestored(row.id, row.catsid)">restore</mat-icon> 
+                 </td>
+             </ng-container>
+             
+             
+             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+             
+             <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                (click)="selection.toggle(row)" (click)="onGetRecord(row)" >
+             </tr> -->
+             
+          </table>
+          <mat-toolbar>
+            <mat-toolbar-row>
+              <form [formGroup]="pageSizeForm">
+                <mat-form-field style="float: left;  width: 100px; font-size: 12px; color: gray;">
+                    <mat-select formControlName="pageSizeSelect" (selectionChange)="onchangePageSize($event)"  placeholder="Items per page">
+                        <mat-option *ngFor="let s of pageSizeOptions" [value]="s" >
+                          {{s}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+              </form>
+              <span class="example-spacer"></span>
+              <mat-paginator *ngIf="dataSource.page$ | async as page" style="width: 100%; background-color: transparent;" [hidePageSize]="true"
+                [length]="page.totalElements" [pageSize]="page.size" [pageIndex]="page.number" (page)="dataSource.fetch($event.pageIndex)" showFirstLastButtons>
+              </mat-paginator>
+            </mat-toolbar-row>
+          </mat-toolbar>
+          <mat-paginator *ngIf="dataSource.page$ | async as page" [pageSizeOptions]="[5, 10, 20]" style="display: none;"
+            [length]="page.totalElements" [pageSize]="page.size" [pageIndex]="page.number" (page)="dataSource.fetch($event.pageIndex)" showFirstLastButtons>
+          </mat-paginator>
+          <mat-spinner *ngIf="dataSource.loading$ | async" diameter="32"></mat-spinner>
+        </div>
+      </div>
+      
+      <div class="col-md-6 col-xs-12" *ngIf="selectedItem != null">  
+        <div class="section-title col-md-12">
+            <span >New Documents: </span>
+            <span style="font-style: italic; font-weight: bold;" >CATS ID: </span>
+            <span style="font-style: italic; font-weight: normal;" >{{selectedItem?.catsid}}  </span>
+            <span style="font-style: italic; font-weight: bold;" > Office: </span>
+            <span style="font-style: italic; font-weight: normal;" > {{selectedItem?.leadOfficeName}}  </span>
+            <span style="font-style: italic; font-weight: bold;" > Round: </span>
+            <span style="font-style: italic; font-weight: normal;" > {{selectedItem?.currentReview}}  </span>
+        </div> 
+        
+        <form class="formToEdit" [formGroup]="documentOperationFormGroup" #form2 title="Instructions and Documents Attachments" id="documentOperationFormGroup">
+              
+            <mat-form-field appearance="fill" >
+                <mat-label>Review Document(s):</mat-label>
+                <ngx-mat-file-input #reviewdocumentcontrol formControlName="reviewDocuments" [multiple]="multiple" (change)="onFileChange($event)"   placeholder="Attach Review Document(s)"
+                    [color]="color">                   
+                </ngx-mat-file-input>
+            </mat-form-field>
+    
+            <mat-form-field appearance="fill" >
+                <mat-label>Reference Document(s):</mat-label>
+                <ngx-mat-file-input #referencedocumentcontrol formControlName="referenceDocuments" [multiple]="multiple" (change)="onFileChange($event)"  placeholder="Attach Reference Document(s)"
+                    [color]="color">                   
+                </ngx-mat-file-input>
+            </mat-form-field>
+    
+            <mat-form-field appearance="fill">
+                <mat-label>Final Document(s):</mat-label>
+                <ngx-mat-file-input #finaldocumentcontrol formControlName="finalDocuments" [multiple]="multiple" (change)="onFileChange($event)"  placeholder="Attach Final Document(s)"  
+                    [color]="color">                   
+                </ngx-mat-file-input>
+            </mat-form-field>
+            
+    
+            <div style="margin-bottom: 20px;">
+              <button mat-button style="background-color: burlywood; cursor: pointer;"  (click)="onAddNewDocuments()" [disabled]="isAddButtonEnabled == false">ADD/UPDATE DOCUMENTS</button>
+            </div>
+        </form>           
+        <div class="panel panel-default" >
+          <div class="panel-body"> 
+            <div class="section-title">
+                <span >Current Documents ({{folder?.documents.length}}): </span>
+                <span style="font-style: italic; font-weight: bold;" >CATS ID: </span>
+                <span style="font-style: italic; font-weight: normal;" >{{selectedItem?.catsid}}  </span>
+                <span style="font-style: italic; font-weight: bold;" > Office: </span>
+                <span style="font-style: italic; font-weight: normal;" > {{selectedItem?.leadOfficeName}}  </span>
+                <span style="font-style: italic; font-weight: bold;" > Round: </span>
+                <span style="font-style: italic; font-weight: normal;" > {{selectedItem?.currentReview}}  </span>
+            </div>   
+            <table mat-table [dataSource]="itemsDocDataSource"  matSort>
+            
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="selectall">
+                      <th mat-header-cell *matHeaderCellDef>
+                        <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
+                                      [checked]="selection.hasValue() && isAllSelected()"
+                                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+                        </mat-checkbox> -->
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        <!-- <mat-checkbox (click)="$event.stopPropagation()"
+                                      (change)="$event ? selection.toggle(row) : null"
+                                      [checked]="selection.isSelected(row)">
+                        </mat-checkbox> -->
+                      </td>
+                    </ng-container>
+                  
+                    <!-- document Column -->
+                    <ng-container matColumnDef="document">
+                      <th mat-header-cell *matHeaderCellDef  mat-sort-header> Document </th>
+                      <td mat-cell *matCellDef="let element"> <div [title]="decodeUrl(element.name)" (click)="goToLink(element.fullPath + '/' + folder.name + '/' + element.name)"  class="cell-content doc-name-url">{{decodeUrl(element.name)}}</div> </td>
+                    </ng-container>
+                  
+                    <!-- type Column -->
+                    <ng-container matColumnDef="type">
+                      <th mat-header-cell *matHeaderCellDef  mat-sort-header> Type </th>
+                      <td mat-cell *matCellDef="let element"> <div [title]="element.name" class="cell-content">{{element.type}}</div> </td>
+                    </ng-container>
+                  
+                    <!-- swap Column -->
+                    <ng-container matColumnDef="swap">
+                      <th mat-header-cell *matHeaderCellDef >Swap?
+                      </th>
+                      <td mat-cell *matCellDef="let element"> 
+                        <mat-checkbox #matCheckSwap (change)="onDocumentSwapped(element, $event.checked)" ><div [title]="'Swap (' + element.name + ')'"  class="cell-content"></div></mat-checkbox>
+                      </td>
+                    </ng-container>
+                  
+                    <!-- delete Column -->
+                    <ng-container matColumnDef="delete">
+                      <th mat-header-cell *matHeaderCellDef  mat-sort-header></th>
+                      <td mat-cell *matCellDef="let element">  <mat-icon (click)="onDocumentDeleted(element.id)">delete</mat-icon>  </td>
+                    </ng-container>
+                
+                    <tr mat-header-row *matHeaderRowDef="itemDocDisplayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: itemDocDisplayedColumns;">
+                    </tr>
+            </table>
+         </div>
+        </div>
+      </div>
+    </div>

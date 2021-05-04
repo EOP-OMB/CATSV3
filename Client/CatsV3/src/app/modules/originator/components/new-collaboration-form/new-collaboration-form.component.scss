@@ -1,0 +1,225 @@
+.formToEdit{
+  /*background-color: gainsboro;*/
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.mat-raised-button{
+  padding: 5px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.stepColumns{
+  background-color: #fafafa;
+  margin-right: 15px;
+  border-radius: 4px;
+}
+
+::ng-deep .mat-step-header[aria-selected="true"]  {
+  background-color: rgba(0,0,0,.04);
+  border-radius: 0px; 
+  font-weight: 10px;
+
+  & div.mat-step-label.mat-step-label-active.mat-step-label-selected {
+      color: black;
+  }
+}
+
+.mat-form-field {
+  margin-top: 16px;
+}
+
+.mat-card-header-text {
+  margin: 0 16px !important;
+}
+
+
+form{
+
+}
+
+.rounds-setting{
+  max-width: 90%;
+}
+
+::ng-deep .mat-step-icon .mat-icon {
+  height: 18px !important;
+  width: 18px !important;
+}
+
+.form-title {    
+  position: relative;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-left: 13px;
+}
+
+.form-title > .mat-icon{
+position: absolute;
+  left: 0px;
+}
+
+.form-title > span{
+  margin-left: 25px;
+}  
+
+.catsid-round{
+  margin-left: 10px !important;
+  color: #112E51;
+}
+
+::ng-deep div[ng-reflect-message*="Cleared By"] {
+  font-weight: bold;
+}
+
+
+::ng-deep .mat-step-icon-state-done{
+  background-color: "green";
+  color:#fff;
+} 
+
+::ng-deep .mat-step-icon-state-edit {
+  background-color: "red";
+  color:rgb(104, 12, 12);
+} 
+
+::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+  
+}
+
+::ng-deep .mat-icon{
+  font-size: 20px !important;
+}
+
+
+  
+::ng-deep .mat-tooltip{
+  font-size: 14px;
+  max-height: 400px;
+  max-width: 800px !important;
+  white-space: pre-line;
+  overflow-y: auto;
+  overflow-y: visible;
+  touch-action: auto !important;
+  
+}
+
+.label-hint{
+  font-size: 0.83rem;
+  color: #0c5460; 
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.hint-panel{
+  margin-top: 60px;
+}
+
+.hint-label{
+  font-weight: bold;
+}
+
+.panel-body{
+  display: block;
+    color: rgb(96, 50, 12);
+    padding: 10px;
+    margin: 0px 10px 10px;
+    background-color: rgb(250, 250, 250);
+    border: 1px solid rgb(233, 233, 233);
+    margin-top:20px;
+}
+
+.mat-stepper-horizontal {
+  border-radius: 4px;
+  width: 98%;
+  margin: 0 auto;
+  margin-bottom: 30px;
+}
+
+.mat-stepper-horizontal-disable-navigation{  
+  pointer-events: none;
+}
+
+.labelBeforeSlide {
+  vertical-align: top;
+  line-height: 24px; 
+  margin-right:0.5rem;
+  margin-bottom:0.5rem;
+}
+
+li{
+  border-bottom: 1px solid gray !important;
+}  
+
+.error > ol > li{
+  border-bottom:none !important;
+  cursor: pointer;
+  text-decoration: underline;
+  display: inline;
+  margin-right: 20px;
+}
+
+.error > ol > li:hover{
+  background-color: lightgray;
+}
+
+.mat-card-header {
+  display: flex;
+  flex-direction: row;
+  padding-left: 15px;
+}
+
+::ng-deep .myPanelClass{
+  margin-top: 40px !important;
+  margin-left: 10px;
+}
+
+.return-draft{  
+  position: absolute;
+  right: 0px;
+  cursor: pointer;
+}
+
+.assigned-users{
+  max-height: 200px;
+  overflow: hidden;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+
+@media only screen and (max-width: 601px) {
+  form{
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .panel-default{
+    max-width: 100%;
+  }
+
+  .rounds-setting{
+    max-width: 100%;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1300px) {
+  form{
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .panel-default{
+    max-width: 100%;
+  }
+
+  .rounds-setting{
+    max-width: 100%;
+  }
+}
+

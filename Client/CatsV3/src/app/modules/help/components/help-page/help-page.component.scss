@@ -1,0 +1,30 @@
+::ng-deep .helpdocumentpage  .help-document{
+    display:inline-flex !important;
+    margin-right: 10px;    
+    margin-right: 10px;
+    vertical-align: bottom;
+    font-size: 15px;
+}
+
+::ng-deep .helpdocumentpage  .mat-list-item-style{
+    height: 38px !important;
+}
+
+::ng-deep .helpdocumentpage  .mat-list-item-content:hover{
+    background-color: gainsboro;
+    height: 38px !important;
+}
+
+::ng-deep .helpdocumentpage  .mat-list-item-content{
+    cursor: pointer;
+}
+
+::ng-deep pdf-viewer {
+    display: block;
+    height: 100vh;
+    border-radius: 4px;
+  }
+
+.mat-divider {
+    border-top-color: #85929e;
+}

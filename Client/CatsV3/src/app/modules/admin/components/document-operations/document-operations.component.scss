@@ -1,0 +1,142 @@
+.mat-form-field {
+    width: 100%;
+}
+
+table{
+    width: 100%;
+}
+
+.cdk-column-icon{
+    width: 10%;
+}
+
+.cdk-column-catsid{
+    width: 20%;
+}
+
+.cdk-column-currentReview{
+    width: 30%;
+}
+
+.cdk-column-leadOfficeName{
+    width: 15%;
+}
+
+.cdk-column-letterStatus{
+    width: 10%;
+}
+
+.cdk-column-action{
+    width: 10%;
+}
+
+.action-icon{
+    color: rgb(117, 111, 111);
+}
+
+.cdk-column-selectall{
+    width: 5%;
+}
+
+.cdk-column-document{
+    width: 50%;
+}
+
+.cdk-column-type{
+    width: 30%;
+}
+
+.cdk-column-swap{
+    width: 10%;    
+}
+
+.cdk-column-delete{
+    width: 5%;        
+}
+
+.section-title{
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.mat-icon {
+    font-size: 20px;
+}
+
+th.mat-header-cell{
+    font-weight: bold;
+}
+
+.mat-row{
+     cursor: pointer;
+}
+
+.mat-row:nth-child(even), .mat-list-item:nth-child(even){
+    background-color: rgb(240, 233, 233);
+}
+        
+.mat-row:nth-child(odd), .mat-list-item:nth-child(odd){
+    background-color:transparent;
+}
+
+.hovered{
+    background-color: lightgray;
+}
+
+.highlighted{
+    background-color: #cec9c9;
+}
+
+.mat-row {
+    height: 40px;
+}
+.mat-toolbar-multiple-rows {
+    min-height: 54px;
+}
+
+.mat-toolbar-row{
+    height: 54px;    
+    background-color: aliceblue;
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    padding-top: 5px;
+}
+
+tr.mat-header-row {
+    height: 46px;
+    background-color: aliceblue;
+}
+
+.mat-paginator {
+    height: 45px;
+}
+
+table{
+    table-layout: fixed;
+}
+
+td {
+    
+}
+
+.cell-catsid-label, .cell-content{
+    font-size: 13px;
+    margin-top: -7px;
+}
+
+.cell-content{
+    width: 98%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.doc-name-url{
+    color: blue;
+    cursor: pointer;
+}
+
+.doc-name-url:hover{
+   text-decoration: underline;
+}

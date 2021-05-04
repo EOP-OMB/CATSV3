@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Utilities\CurrentBrowserUser.cs" />
+    <Compile Remove="Utilities\InitialDataSources.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Server\Mod.Framework.User\Mod.Framework.User.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Server\Mod.Framework.WebApi\Mod.Framework.WebApi.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Server\Mod.Framework\Mod.Framework.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,47 @@
+
+<div class="divrow" style="position: relative">
+    <form [formGroup]="details" >
+    <label [attr.for]="sourceName"> {{label}}: </label>
+    <mat-form-field >
+      <mat-select  (selectionChange)="onOptionValueChange($event)" #mySelect  (keydown)="$event.stopPropagation()"
+        [multiple]="isMulipleSelect == 'true' ? '' : null"
+        [title]="title" [placeholder]="placeholder"
+        [id]="sourceName" [formControlName]="sourceName" style="text-align:center" disableOptionCentering panelClass="selectPanelClass" class="selectControl" >
+        <div *ngIf="isAutoCompleted == 'true'" style="border: 1px solid #ded8d8;
+        margin: 5px;
+        border-radius: 5px;
+        height: 40px;">
+          <input class="autocompleteBox" (input)="onInputTextChange($event)" (keydown)="$event.stopPropagation()"
+          id="selectControlText"
+          type="text"
+          formControlName="selectControlText" />
+          
+          <label *ngIf="isAdding == 'true'" class="selectControlTextBtn">
+            +
+          </label>
+        </div>
+                        
+
+        <mat-select-trigger *ngIf="isMulipleSelect == 'true'">
+          {{localselectedOptions ? localselectedOptions[0] : ''}}
+          <span *ngIf="localselectedOptions.length > 1" class="example-additional-selection">
+            (+{{localselectedOptions.length - 1}} {{localselectedOptions.length === 2 ? 'other' : 'others'}})
+          </span>
+        </mat-select-trigger>
+
+        <mat-option *ngFor="let option of localSourceOptions" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-select>
+      
+      <div  class="hasError hasErrorForControlSelect"
+        *ngIf="
+            details.get(sourceName)?.hasError('required') &&
+            details.get(sourceName)?.touched
+        "
+        >
+        {{label}} is Required
+        </div>
+    </mat-form-field>
+    </form>
+  </div>

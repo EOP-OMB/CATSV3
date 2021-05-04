@@ -1,0 +1,175 @@
+.app-content {
+    margin: 20px;
+    min-height: 75%;
+    padding:10px;
+    width: -webkit-fit-content;
+    height: -webkit-fit-content;
+    width: -moz-fit-content;
+    height: -moz-fit-content;
+}
+
+.rounded {
+    border-radius: .35rem !important;
+    
+}
+.rounded-correspondence {
+    background: rgba(103, 162, 184, 0.1);
+    width: 98%;
+}
+.rounded-originator{
+    background: rgba(235, 190, 31, 0.08);;
+    width: 98%;
+}
+
+.rounded-reviewer{
+    background: rgba(95, 158, 69, 0.08);
+    width: 98%;
+}
+
+.dashboard-hearder-title{
+    /*display:none*/
+}
+
+.hidedashIcon{
+    display: none;
+}
+
+.toggleImpersonateTexClass{
+    color: brown;
+    z-index: 100;
+    padding: 0px !important;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    text-align: -webkit-right;
+}
+
+.showPageIcon{
+    font-size: 40px !important;
+}
+
+::ng-deep .breadcrumb-item{
+    margin-bottom: 3px !important;
+}
+
+::ng-deep .toggleImpersonate-label{ 
+    cursor: pointer;
+    margin-left: 30px; 
+    float: right;
+}
+
+::ng-deep .impersonatedUser{
+    color: #112E51 !important;
+    font-weight: bold;
+}
+
+.maticon-impersonation{
+    cursor: pointer;
+    margin-top: 0px;
+    position: absolute;
+    top: -5px;
+}
+
+.app-content {
+    width: 98%;
+}
+
+.viewAs{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: initial;
+}
+
+.home-columns-settings, .home-impersonation-settings{
+    color: gray;
+    cursor: pointer;
+}
+
+.home-settings{
+    padding: 10px;
+    position: relative;
+}
+
+.home-columns-settings{
+    color: gray;
+}
+
+.home-impersonation-settings{
+    color: gray;
+    margin-left: 20px;
+}
+
+.home-create-new-letter{
+    margin-left: 35px;
+    position: absolute;
+    top: 5px;
+    min-width: 150px;
+}
+
+
+.make-blue{    
+    background-color: rgba(103, 162, 184, 0.4);
+}
+
+.make-gold {
+    background-color: rgba(187, 167, 98, 0.5);
+}
+.make-green {
+    background-color: rgba(95, 158, 69, 0.5);
+}
+
+::ng-deep input:focus,::ng-deep  textarea:focus,::ng-deep  select:focus,::ng-deep  a:focus,::ng-deep  div:focus,::ng-deep  button:focus, ::ng-deep  div:focus, ::ng-deep  .a25a{
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+}
+
+::ng-deep .mat-menu-panel{
+    max-height: 400px !important;
+}
+
+::ng-deep .mat-menu-item{
+    border-bottom: 1px solid lightgray !important;
+} 
+
+  
+@media only screen and (max-width: 800px) {
+    .home-settings{
+        position: relative;
+        left: 0px;
+        top: 0px;
+    }
+    .maticon-impersonation{
+        margin-top: 0px;
+        position: absolute;
+        top: -5px;
+        
+    }
+
+    .viewAs {
+        text-align: left;
+    }
+
+    .mat-form-field-infix{
+        
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1300px) {
+    .maticon-impersonation{
+        margin-top: 0px;
+        position: absolute;
+        top: -5px;
+    }
+
+    .mat-form-field-infix{
+        width: initial;
+    }
+}
+  
+
+
+
+
+

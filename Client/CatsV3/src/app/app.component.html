@@ -1,0 +1,61 @@
+
+<mod-layout appName="MOD CATS V3" class="main-content" [menuConfig]="menuConfig" (userOptionSelect)="onUserOption($event)" (helpOptionSelect)="onHelpOption($event)" (search)="onSearch($event)">
+   
+
+    <div class="app-content" [ngClass]="{
+        'rounded': dashboardIconSource != '',
+        'rounded-correspondence': evaluateTitle('correspondence')== true, 
+        'rounded-originator': evaluateTitle('originator')== true, 
+        'rounded-reviewer': evaluateTitle('reviewer')== true }">
+        <div class="row clearfix dashboard-hearder-title" style="position: relative;">
+            <div class="col-xs-12 col-sm-12 col-lg-1" style="float: left;max-width: 60px" *ngIf="showPageIcon == false">
+                <mat-icon class="showPageIcon" style="font-size: 40px;">home</mat-icon>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-1" style="float: left;max-width: 60px" *ngIf="showPageIcon">                
+                    <div style="float: left; margin-top: -5px; margin-right: 10px;" 
+                    [ngClass]="{hidedashIcon: dashboardIconSource === ''}">
+                        <img width="49" height="49" alt="Correspondence Dashboard" 
+                        [src]="dashboardIconSource">
+                    </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-lg-7" style="float: left">
+                <div class="row" style="position: relative;">
+                    <app-breadcrumb style="margin-left: 8px;" ></app-breadcrumb>
+                    <div class="home-settings">
+                        <mat-icon (click)="onOpenColumnsSettingsClick()" class="home-columns-settings" title="Click to open columns settings panel" *ngIf="enableColumnCofig == true" >settings</mat-icon>
+                        <mat-icon (click)="onOpenImpersonationSettingsClick()" class="home-impersonation-settings" title="Click to open surrogates panel" *ngIf="enableUserPanelfig == true">person_add</mat-icon>
+                        <button (click)="onCreateNewLetterClick()"  class="home-create-new-letter mat-raised-button" title="Click to create new Letters" *ngIf="enableNewLetterButton == true" 
+                                [ngClass]="{
+                                    'make-blue': inComingDashboard === 'correspondence',
+                                    'make-gold': inComingDashboard === 'originator'
+                                }">
+                        <span *ngIf="inComingDashboard.includes('correspondence') && dashboardTitle?.split('/').length == 2">Create New Letter</span>
+                        <span *ngIf="inComingDashboard.includes('originator') && dashboardTitle?.split('/').length == 2"> New Collaboration</span> </button>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="col-xs-12 col-sm-12 col-lg-4 toggleImpersonateTexClass" *ngIf="initialDataSources.currentBrowserUser.CurrentActingRole != 'Logged User'" >
+                <div class="viewAs">
+                    <mat-icon (click)="onCancelImpersonation()" class="maticon-impersonation" 
+                        [title]="'Cancel Acting User (' + initialDataSources.currentBrowserUser.PreferredName + ')'">
+                        person
+                    </mat-icon>
+                </div>                
+
+                <div class="viewAs">
+                    <label (click)="onCancelImpersonation()" class="toggleImpersonate-label" [innerHTML]="initialDataSources.currentBrowserUser.ImpersonationUserLabel" 
+                        [title]="'Cancel Acting User (' + initialDataSources.currentBrowserUser.PreferredName + ')'">
+                    </label>
+                </div>
+                
+            </div>
+            
+        </div>
+        <!--<persistent-router-outlet></persistent-router-outlet>-->
+        <router-outlet></router-outlet>
+    </div>
+</mod-layout>
+
+

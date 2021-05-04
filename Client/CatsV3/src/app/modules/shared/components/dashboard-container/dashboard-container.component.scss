@@ -1,0 +1,574 @@
+
+/* dashboard header backgroup make-blue,make-gold, .make-green */
+
+.make-blue{    
+    background-color: rgba(103, 162, 184, 0.4);
+}
+
+.make-gold {
+    background-color: rgba(187, 167, 98, 0.5);
+}
+.make-green {
+    background-color: rgba(95, 158, 69, 0.5);
+}
+
+.hide-me{
+    display: none;
+}
+
+input:focus {
+  background-color: lightgray;
+  border-radius: 4px;
+}
+
+
+/*alternate table row background color*/
+.mat-row:nth-child(even){    
+    background-color: whitesmoke;
+}
+
+.mat-row:nth-child(odd){
+    background-color:transparent;
+}
+    
+.example-container {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-width: 300px;
+}
+
+.mat-table {
+    overflow: auto;
+    height: auto;
+}
+
+.mat-header-cell {
+    font-size: 13.3px;
+}
+
+.mat-cell, .mat-row{
+    font-size: 13.3px;
+}
+
+/*table header/footer height*/
+.mat-header-row {
+    min-height: 40px;
+}
+
+
+
+.form-group {    
+    margin-top: 1px;
+    margin-left: 1px;
+    margin-bottom: 0px;
+}
+
+.commandssettings{
+    padding: 0px;
+    position: ABSOLUTE;
+    right: 10PX;
+    top: 21PX;
+}
+
+.commandssettings, .radiofilter{
+    white-space: nowrap;
+}
+
+::ng-deep .mat-tab-group-originator {
+    min-width: 450px;
+    height: 70px;
+    /*border: 1px solid red;*/
+    position: absolute;
+    top: -20px;
+}
+
+::ng-deep  .mat-tab-group-originator .mat-tab-label, ::ng-deep  .mat-tab-group-originator .mat-tab-label-active{
+    min-width: 100px!important;
+    padding: 3px!important;
+    margin: 3px!important;
+    color: black;
+}
+
+::ng-deep .mat-tab-group-originator .mat-tab-label-active{
+    background-color: rgba(187, 167, 98, 0.5);
+    border-radius: 5px;
+}
+
+::ng-deep   .mat-tab-group-originator .mat-tab-body-content {
+    height: 100%;
+    overflow: hidden;
+}
+
+//Ellipsis for text overflow in table cell
+mat-cell > span.truncate-text {
+    text-overflow: ellipsis; 
+    overflow: hidden; 
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+.field-filter{
+    padding: 0px 5px 0px 5px;
+    border: 1px solid gray;    
+    border-radius: 4px;
+    width: 90%;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 11px;
+    height: 17px;
+    padding-top: 2px;
+    cursor: pointer;
+}
+
+.field-filter:hover{
+    background-color: rgb(195, 198, 201);
+}
+
+.mat-row, .mat-footer-row {
+    min-height: 40px;
+}
+
+.mat-footer-row{
+    background-color: aliceblue;
+}
+
+.mat-toolbar-multiple-rows {
+    min-height: 54px;
+}
+
+.mat-toolbar-row{
+    height: 54px;    
+    background-color: #eef1f3;
+}
+
+.mat-toolbar-row > form{
+    margin-top: 10px;
+}
+
+/*table details rows style*/
+.element-row {
+    position: relative;
+}
+
+.element-row:not(.expanded) {
+cursor: pointer;
+}
+
+.element-row:not(.expanded):hover {
+    background: #f5f5f5;
+}
+
+.element-row.expanded {
+    border-bottom-color: transparent;
+}
+.detail-row-content{    
+    margin: 10px 10px 10px 28px;
+    /* background-color: #e2e5e8; */
+    border-radius: 5px;
+    border: 1px solid darkgray;
+    padding: 5px;
+    /* box-shadow: 5px 3px #edf2f3;
+    /*border-radius: 5px;
+    border-color: #d2bcbc;
+    padding-top: 10px;*/
+}
+
+.mat-footer-row {
+    /*background-color: rgba(103, 162, 184, 0.4);*/
+}
+
+td{
+    position: relative;
+}
+
+td div{
+    max-height: 150px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+.mat-button, .mat-icon-button, .mat-stroked-button {
+    background: rgba(103, 162, 184, 0.1); 
+}
+
+.mat-button-correspondence {
+    background: rgba(103, 162, 184, 0.1); 
+    min-width: 150px;
+}.mat-button-originator {
+    background: rgba(235, 190, 31, 0.08);
+    min-width: 150px;
+}.mat-button-reviwer {
+    background: rgba(95, 158, 69, 0.08); 
+    min-width: 150px;
+}
+
+.mat-button:hover, .mat-icon-button:hover, .mat-stroked-button:hover {
+    background-color: #e8e9f0;
+    color: rgb(58, 55, 55);
+}
+
+.mat-button, .mat-icon-button, .mat-stroked-button, .mat-flat-button {
+    margin: 3px;
+}
+
+:host ::ng-deep .mat-radio-container{
+    height: 15px;
+    width: 15px;   
+    margin: 10px;
+}
+
+:host ::ng-deep .mat-radio-outer-circle:hover{
+    background-color:gray;
+}
+
+:host ::ng-deep .mat-radio-outer-circle{
+    height: 15px;
+    width: 15px;  
+}
+
+:host ::ng-deep .mat-radio-inner-circle{
+    height: 15px;
+    width: 15px;
+}
+
+:host ::ng-deep .mat-radio-button .mat-radio-ripple{
+    height: 20px; /*double of your required circle radius*/
+    width: 20px;  /*double of your required circle radius*/
+    left: calc(50% - 10px); /*'10px'-same as your required circle radius*/
+    top: calc(50% - 10px); /*'10px'-same as your required circle radius*/
+}
+
+:host ::ng-deep .mat-radio-label-content {
+    padding-left: 2px ;
+    padding-right: 0;
+}
+
+:host ::ng-deep .mat-radio-label {
+    margin-right: 10px;
+}
+
+:host ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: #54494d;
+}
+
+:host ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: #6e7079;
+}
+
+/*Styles Button for New Collaboration and Create New Letter*/
+:host ::ng-deep .mat-raised-button.mat-accent{    
+    color: black;
+    height: 27px;
+    margin-left: 20px;
+    line-height: 0px;
+    min-width: 170px;
+    z-index: 100;
+    float: right;
+    
+}
+
+:host ::ng-deep .mat-raised-button.mat-accent:hover{   
+    background-color:transparent !important;;
+}
+
+#btnLetter{
+    min-width: 170px;
+}
+
+/* icon for create new letter button style*/
+.maticon-in-button{    
+    color: dimgray;
+}
+.maticon{    
+    margin-bottom: 8px !important;
+    color: dimgray;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.maticon-completed{    
+    margin-bottom: 8px !important;
+    color: green;
+}
+
+.m-c-Correspondence, .m-c-Originator, .m-c-reviewer,
+.m-s-Correspondence, .m-s-Originator, .m-s-reviewer,
+.m-i-Correspondence, .m-i-Originator, .m-i-reviewer{ 
+    color: gray;
+    cursor: pointer;
+}
+
+.m-c-Correspondenc, .m-c-Originator, .m-c-reviewer{ 
+    /*right: 120px;*/
+}
+
+.m-i-Correspondence, .m-i-Originator, .m-i-reviewer{
+     /*right: 80px;*/
+}
+
+.collapsedColumnsPanel, .collapsedImpersonationPanel{
+    margin-bottom: 20px;
+}
+
+.impersonationInputClass{
+    max-width: 400px;
+}
+
+.impersonationInputClass:hover{background-color: lightgreen;
+}
+
+.pending-copied-slider{
+    position: absolute;
+    top: -27px;
+    left: 8px;
+    color: #2d08a0;
+}
+
+.col-omb-dataviewer-field {
+    font-weight: normal;
+    text-align: left;
+    color: #0c5460;
+    border-bottom: 1px solid #ddd;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-style: italic;
+}
+
+.col-omb-dataviewer-btn{
+    font-size: 15px;
+    position: absolute;
+    right: -10px;
+    top: 12px;
+    cursor: pointer;
+}
+
+::ng-deep .mat-tab-labels {
+    display: flex;
+    height: 35px;
+}
+
+::ng-deep .mat-tab-label .mat-tab-label-content {
+    margin-top: -10px;
+}
+
+.mat-card{
+    min-height: 150px;
+}
+
+::ng-deep .mat-card-title{
+    font-weight: bold;
+    color: #0c5460;
+    font-size: 13px !important;
+}
+
+::ng-deep .mat-tab-label-active{
+    background-color: aliceblue;
+    border-radius: 5px;
+}
+
+::ng-deep .mat-tab-body-content {
+    height: 100%;
+    overflow: auto;
+    padding: 5px 0px 5px 0px;
+}
+
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+    background-color: #6842de;
+}
+
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+    background-color: #786b9e;
+}
+
+.no-record-found-td{
+    text-align: center; 
+    height: 30px; 
+    background-color: #eaecef;
+}
+
+.mat-option{
+    font-size: 14px;
+    height: 24px;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+.example-full-width {
+    width: 100%;
+}
+
+.onColumnReset{
+    font-size: 22px;
+    cursor: pointer;
+    margin-left: 20px;
+    position: absolute;
+}
+
+.onSearchIcon{
+    position: absolute;
+    right: 0px;
+    top: 40px;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+
+.example-form{
+    max-width: 100% !important;
+}
+
+.mat-form-field {
+    width: 95% !important;
+}
+
+.configColumns {
+    font-size: 12px;
+    overflow: hidden;
+    height: 40px;
+    flex-flow: nowrap;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.mat-button{
+    font-size: inherit;
+}
+
+.mat-card-header-text{
+    margin: 0px;
+}
+
+
+/*table icon column style*/
+.hide-columns{
+    display: none;
+}
+.w-75{    
+    max-width: 75px !important;
+    flex: 0 0 75px;
+}
+
+.w-85{    
+    max-width: 95px !important;
+    flex: 0 0 95px;
+}
+
+.w-125{    
+    max-width: 125px !important;
+    flex: 0 0 125px;
+}
+
+.w-150{    
+    max-width: 150px !important;
+    flex: 0 0 150px;
+}
+ 
+.cdk-column-icon{
+    width: 75px !important;
+    flex: 0 0 75px;
+}
+.cdk-column-catsid{
+    min-width: 120px !important;
+    flex: 0 0 120px;
+}
+
+.cdk-column-boilerPlate{
+    min-width: 40px !important;
+    flex: 0 0 40px;
+}
+
+.cdk-column-leadOfficeName{
+    min-width: 95px !important;
+    flex: 0 0 95px;
+}
+
+.multiselect-drop {
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.document-table{
+    table-layout: fixed;
+    float: left;
+    width: 100%;
+}
+
+.document-table-first-row{
+    background-color: #e6dbdb;
+    border-radius: .35rem !important;
+}
+
+.document-table th{
+    font-weight: normal;
+}
+
+.document-table th, .document-table td{
+    width: 100%;
+    vertical-align: top;
+    text-overflow: ellipsis; 
+    overflow: hidden; 
+    white-space: nowrap;
+    padding-right: 10px;
+    padding: 5px;
+    margin: 5px;
+    border-right: 1px solid #d2cdcd;
+    max-height: 20px;
+}
+
+.document-table th:last-child, .document-table td:last-child{
+    border: none;
+}
+
+caption {
+    display: table-caption;
+    text-align: left;
+    caption-side: top;
+    padding-top: .0rem !important; 
+    padding-bottom: .0rem !important;
+  }
+
+/*Mobile styles*/
+.mobile-label {
+    display: none;
+  }
+  
+  @media(max-width: 600px) {
+    .mobile-label {
+      width: 80px;
+      display: inline-block;
+          font-weight: bold;
+    }
+  
+    .mat-header-row {
+      display: none;
+    }
+  
+    .mat-row { 
+      flex-direction: column;
+      align-items: start;
+      padding: 8px 24px;
+    }
+
+    .mat-row :nth-child(even) {
+        background-color: #f3f2f2;
+    }
+
+    .radiofilter, .commandssettings, .globalsearchfilter{
+        width: 100%;
+    }
+  }
+
+  

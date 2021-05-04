@@ -1,0 +1,542 @@
+
+<div class="example-header row">
+  <div class="col-xs-12 col-sm-12 col-lg-10" style="margin-top: 0px;" >
+    <div class="row"  style="margin-top: 0px;">
+      <form [formGroup]="eventEditForm" novalidate class="col-sm-7 "  style="margin-top: 0px;">
+          <div class="row form-group radiofilter" style="position: relative;" >
+
+            <!--Toggle between Collaboration and Pending: Applied to Originator Dashboard only-->            
+            <!-- TAB Originator navigation: Collaboration, Office Data, Pending, Copied -->
+            <div class="col-sm-7" style="padding:0px; position: relative">                  
+                <mat-tab-group *ngIf="inComingDashboard == 'originator'" class="mat-tab-group-originator" [selectedIndex]="onOriginatorTabSelectedIndex" (selectedTabChange)="onOriginatorTabChanged($event)">
+                  <mat-tab  label="COLLABORATION">
+                    <mat-radio-group #CorrespondenceRadioGroup  formControlName="costatus" (change)="radioChange($event)" [(ngModel)]="selectedStatus">
+                      <mat-radio-button *ngFor="let a of radioOptions; index as i" [value]="a">
+                        {{a}}
+                      </mat-radio-button>                
+                    </mat-radio-group>
+                  </mat-tab>              
+                  <mat-tab  label="OFFICE DATA">
+                    <mat-radio-group #CorrespondenceRadioGroup  formControlName="costatus" (change)="radioChange($event)" [(ngModel)]="selectedStatus">
+                      <mat-radio-button *ngFor="let a of radioOptions; index as i" [value]="a" 
+                         [checked]="i == 0">
+                        {{a}}
+                      </mat-radio-button>                
+                    </mat-radio-group>
+                  </mat-tab>
+                  <mat-tab  label="PENDING">
+                    <mat-radio-group #CorrespondenceRadioGroup  formControlName="costatus" (change)="radioChange($event)" [(ngModel)]="selectedStatus" >
+                      <mat-radio-button *ngFor="let a of radioOptions; index as i" [value]="a" 
+                        [checked]="i == 0">
+                        {{a}}
+                      </mat-radio-button>                
+                    </mat-radio-group>
+                  </mat-tab>
+                  <mat-tab  label="COPIED">
+                    <mat-radio-group #CorrespondenceRadioGroup  formControlName="costatus" (change)="radioChange($event)" [(ngModel)]="selectedStatus">
+                      <mat-radio-button *ngFor="let a of radioOptions; index as i" [value]="a" 
+                        [checked]="i == 0">
+                        {{a}}
+                      </mat-radio-button>                
+                    </mat-radio-group>
+                  </mat-tab>
+                </mat-tab-group>
+
+                <!--Radio buttons Toggle between status: can be Open, Closed, All, Pending, Archives -->            
+                <mat-radio-group #CorrespondenceRadioGroup  formControlName="costatus" 
+                *ngIf="inComingDashboard == 'correspondence'" (change)="radioChange($event)" [(ngModel)]="selectedStatus">
+                  <mat-radio-button *ngFor="let a of radioOptions; index as i" [value]="a">
+                    {{a}}
+                  </mat-radio-button>                
+                </mat-radio-group>
+                
+                <mat-radio-group #CorrespondenceRadioGroup  formControlName="revstatus"
+                  *ngIf="inComingDashboard == 'reviewer'" (change)="radioChange($event)" [(ngModel)]="selectedStatus">
+                  <mat-radio-button *ngFor="let a of radioOptions; index as i" [value]="a" >
+                    {{a}}
+                  </mat-radio-button> 
+                </mat-radio-group>
+            </div>
+            
+
+          </div>
+      </form>
+      
+    </div>
+  </div>
+
+  <!--Table main filter -->
+  <div class="col-xs-12 col-sm-12 col-lg-2">
+    <mat-form-field>
+      <input id='globalsearch' #in (input)="onSearchInput(in.value, 'globalsearch', true)" [(ngModel)]="globalSearch"  type="text"  placeholder="Search" matInput>
+    </mat-form-field>
+  </div>
+  
+</div>
+
+<!-- Impersonation Panel && Surrogate Panel-->
+<div *ngIf="collapsedImpersonationPanel" class="collapsedImpersonationPanel">
+  <mat-card>
+    <mat-tab-group>
+      <!-- Load AS Surrogate Panel-->
+      <div></div>
+      <mat-tab label="Load As Surrogate" *ngIf="inComingDashboard != 'correspondence' && surrogateAvailableCount > 0" >  
+         <div class="col-md-8" style="position: relative; margin: 20px;" *ngIf="initialDataSources.currentBrowserUser.CurrentActingRole?.includes('surrogate')" >Unavailable while viewing as a surrogate</div>      
+         <div class="col-md-8" style="position: relative; margin: 20px;" *ngIf="!initialDataSources.currentBrowserUser.CurrentActingRole?.includes('surrogate')" >
+          <mat-card-title style="font-size: 15px;">{{initialDataSources.currentBrowserUser.MainActingUserPreferedName}} <span style="color: black;">ACTING ON BEHALD OF: ({{surrogateAvailableCount}}) Available</span> </mat-card-title>
+          <form  [formGroup]="formSurrogate" novalidate class="example-form">
+            <mat-form-field class="example-full-width">
+              <button class="row" style="margin-bottom: 20px;margin-left: 0px;margin-top: -10px;" (click)="onLoadImpersonation('surrogate')" 
+                mat-stroked-button color="primary"  title="Click to load the impersonated User"  [disabled]="!formSurrogate.valid">
+                <mat-icon style="margin-right: 10px;">person_add</mat-icon>            
+                Load Surrogate User
+              </button>
+              <input class="row" type="text" 
+                      
+                      aria-label="Number"
+                      matInput
+                      formControlName="surrogateInput"
+                      [matAutocomplete]="autoSurrogate">
+              <mat-autocomplete #autoSurrogate="matAutocomplete"  [displayWith]="displayFn">
+                <mat-option *ngFor="let user of SurrogatefilteredOptions | async" [value]="user.upn">
+                  {{user.displayName}}
+                </mat-option>
+              </mat-autocomplete>
+              
+              <mat-icon class="onSearchIcon" title="Search User" (click)="onColumnsConfigReset()">arrow_drop_down</mat-icon>
+              
+            </mat-form-field>        
+          </form>
+        </div> 
+      </mat-tab>
+      
+      <!-- My Surrogate Panel-->
+      <mat-tab label="My Surrogates" *ngIf="inComingDashboard != 'correspondence'">  
+        <div class="col-md-8" style="position: relative; margin: 20px;" *ngIf="impersonationMode == 'surrogate'" >Unavailable while viewing as a surrogate</div>          
+        <div class="col-md-8" *ngIf="inComingDashboard != 'correspondence' && impersonationMode != 'surrogate'" style="position: relative; margin: 20px;padding-bottom: 10px">
+          <mat-card-title style="font-size: 15px;">{{initialDataSources.currentBrowserUser.MainActingUserPreferedName}}<span style="color: black;">' s SURROGATES:</span> </mat-card-title>
+          <div class="row" style="position: relative;">
+              <!-- Surrogate Originators -->
+              <div class="col-md-6" style="margin-top: 0px;background-color:aliceblue; border-radius: 4px;">
+                <div *ngIf="this.parentRoute == 'originator'">
+                  <div  *ngFor="let user of mySurrogateOriginator"  style="position: relative">
+                    <div [title]="user.displayName" class="col-omb-dataviewer-field">{{user.displayName}}</div>
+                    <div (click)="onRemoveMySurrogate(user?.upn, user?.id, user?.displayName)"  [title]="'Remove: ' + user?.displayName" class="col-omb-dataviewer-btn">
+                      <mat-icon style="font-size: 25px;">delete_outline</mat-icon>
+                    </div>                  
+                  </div>
+                  <div  *ngIf="mySurrogateOriginator?.length == 0" style="position: absolute;bottom: 18px; width: 90%;">
+                    <div title="No data found" class="col-omb-dataviewer-field">No Data Found</div>
+                  </div>
+                </div>
+                <!-- Surrogate Reviewers -->
+                <div *ngIf="this.parentRoute == 'reviewer'">
+                  <div  *ngFor="let user of mySurrogateReviewer"  style="position: relative">
+                    <div [title]="user.displayName" class="col-omb-dataviewer-field">{{user.displayName}}</div>
+                    <div (click)="onRemoveMySurrogate(user?.upn, user?.id, user?.displayName)"  [title]="'Remove: ' + user.displayName" class="col-omb-dataviewer-btn">
+                      <mat-icon style="font-size: 25px;">delete_outline</mat-icon>
+                    </div>                  
+                  </div>
+                  <div  *ngIf="mySurrogateReviewer?.length == 0" style="position: absolute;bottom: 18px; width: 90%;">
+                    <div title="No data found" class="col-omb-dataviewer-field">No Data Found</div>
+                  </div>
+                </div>
+              </div>
+              <!--Add My Surrogate-->
+              <div class="col-md-6" >
+                <form  [formGroup]="formMySurrogate" novalidate class="example-form" >
+                  <mat-form-field class="example-full-width">
+                    <button class="row"  style="margin-bottom: 20px;margin-left: 0px;margin-top: -10px;" (click)="onAddMySurrogate()" 
+                      mat-stroked-button color="primary"  title="Click to add a surrogate User" [disabled]="!formMySurrogate.valid">
+                      <mat-icon style="margin-right: 10px;">person_add</mat-icon>            
+                      Add Surrogate
+                    </button>
+                    <input class="row" type="text" 
+                           
+                           aria-label="Number"
+                           matInput
+                           formControlName="mySurrogateInput"
+                           [matAutocomplete]="autoMySurrogate">
+                    <mat-autocomplete #autoMySurrogate="matAutocomplete" [displayWith]="displayFn">
+                      <mat-option *ngFor="let user of MySurrogatefilteredOptions | async" [value]="user.userUPN">
+                        {{user.userFullName}}
+                      </mat-option>
+                    </mat-autocomplete>
+                    
+                    <mat-icon class="onSearchIcon" title="Search User" (click)="onColumnsConfigReset()">arrow_drop_down</mat-icon>
+                    
+                  </mat-form-field>        
+                </form>
+              </div>
+          </div>
+        </div> 
+      </mat-tab>
+      <!-- Impersonation Panel-->
+      <mat-tab label="Impersonation" *ngIf="initialDataSources.currentBrowserUser.MemberOfAdmins == true || initialDataSources.currentBrowserUser.MemberOfCATSSupport == true">        
+        <div class="col-md-8" style="position: relative; margin: 20px;">
+          <mat-card-title style="font-size: 15px;">USER'S IMPERSONATION:</mat-card-title> 
+          <form  [formGroup]="formImpersonation" novalidate class="example-form">
+            <mat-form-field class="example-full-width">
+              <button class="row" style="margin-bottom: 20px;margin-left: 0px;margin-top: -10px;" (click)="onLoadImpersonation('impersonation')" 
+                mat-stroked-button color="primary"  title="Click to load the impersonated User"  [disabled]="!formImpersonation.valid">
+                <mat-icon style="margin-right: 10px;">person_add</mat-icon>            
+                Load Impersonate User
+              </button>
+              <input class="row" type="text"
+                     aria-label="Number"
+                     matInput
+                     formControlName="impersonationInput"
+                     [matAutocomplete]="autoImpersonation">
+              <mat-autocomplete #autoImpersonation="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let user of OMBUsersfilteredOptions | async" [value]="user.upn">
+                  {{user.displayName}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-icon class="onSearchIcon" title="Search User" (click)="onColumnsConfigReset()">arrow_drop_down</mat-icon>
+              
+            </mat-form-field>        
+          </form>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    <mat-card-content>
+      <div class="row">        
+        
+       
+        
+      </div>
+      
+      
+    </mat-card-content>    
+  </mat-card>  
+</div>
+
+<!-- Dynamic checkboxes for Columns configuration-->
+<div *ngIf="collapsedColumnsPanel" class="collapsedColumnsPanel">
+  <mat-card>
+    <mat-card-header>
+       <mat-card-title style="font-size: 15px;">Column Configuration Panel: 
+        <span style="font-weight: 100;">Changes made here will persist your columns settings automatically.</span>
+        <span style="position: relative;">
+          <mat-icon class="onColumnReset" title="Reset columns" (click)="onColumnsConfigReset()">cached</mat-icon>
+        </span>
+        
+      </mat-card-title>
+    </mat-card-header>
+  
+    <mat-card-content>
+
+      <form [formGroup]="formSetColumns" novalidate>
+        
+        <div class="row" *ngIf="inComingDashboard === 'correspondence'">
+          <div *ngFor="let data of columnsConfigurations.correspondenceColumnsConfigData; let i=index" class="col-md-1 configColumns">
+            <label>
+              <input [checked]="hiddenColumns.indexOf(data.value) == -1" type="checkbox" #availableColumns [value]="data.value" (change)="onColumnCheckboxChange($event)" />
+              {{data.name}}
+            </label>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="inComingDashboard === 'originator'">
+          <div *ngFor="let data of columnsConfigurations.originatorColumnsConfigData; let i=index" class="col-md-1 configColumns">
+            <label>
+              <input [checked]="hiddenColumns.indexOf(data.value) == -1" type="checkbox" #availableColumns [value]="data.value" (change)="onColumnCheckboxChange($event)" />
+              {{data.name}}
+            </label>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="inComingDashboard === 'reviewer'">
+          <div *ngFor="let data of columnsConfigurations.reviewerColumnsConfigData; let i=index" class="col-md-1 configColumns">
+            <label>
+              <input [checked]="hiddenColumns.indexOf(data.value) == -1" type="checkbox" #availableColumns [value]="data.value" (change)="onColumnCheckboxChange($event)" />
+              {{data.name}}
+            </label>
+          </div>
+        </div>
+        
+    </form>
+    </mat-card-content>    
+  </mat-card>  
+</div>
+
+<!--TABLE Dashboard-->
+<div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource2" [class.isMobile]="isMobile"  matSort  (matSortChange)="sortBy($event)" matSortActive="catsid" matSortStart="asc" matSortDisableClear cdkDropListGroup class="mat-elevation-z1" 
+          cdkDropList
+          cdkDropListLockAxis="x"
+          cdkDropListOrientation="horizontal"
+          (cdkDropListDropped)="dropListDropped($event)">
+
+      <!-- Generic column definition -->
+      <ng-container *ngFor="let column of columns; index as i" [cdkColumnDef]="column.columnDef">
+          <!-- header cell -->
+          <mat-header-cell *cdkHeaderCellDef  mat-sort-header (mouseover)="onHeaderClick($event, i)"
+          cdkDrag
+          [cdkDragDisabled]="i == 0"
+          (cdkDragEnded)="onDragEnded($event, i)"
+          (cdkDragStarted)="dragStarted($event, i)"
+          [cdkDragData]="{name: column.columnDef, columIndex: i}" 
+
+            [ngClass]="{  
+                        'hide-columns': hiddenColumns.indexOf(column.columnDef.trim()) != -1,
+                        'w-75': w_75.indexOf(column.columnDef.trim()) != -1,
+                        'w-85': w_85.indexOf(column.columnDef.trim()) != -1,
+                        'w-125': w_125.indexOf(column.columnDef.trim()) != -1,
+                        'w-150': w_150.indexOf(column.columnDef.trim()) != -1}">
+              {{ column.header }}
+          </mat-header-cell>
+          <!-- column cell -->
+          <mat-cell *cdkCellDef="let row"  
+            [ngClass]="{  
+                        'hide-columns': hiddenColumns.indexOf(column.columnDef.trim()) != -1,
+                        'w-75': w_75.indexOf(column.columnDef.trim()) != -1,
+                        'w-85': w_85.indexOf(column.columnDef.trim()) != -1,
+                        'w-125': w_125.indexOf(column.columnDef.trim()) != -1,
+                        'w-150': w_150.indexOf(column.columnDef.trim()) != -1}">
+              <span cdk-visually-hidden *ngIf="column.header == ''" >                    
+                <mat-icon class="maticon" [ngClass]="{'maticon-completed': row.reviewStatus == 'Completed'}"> 
+                  {{ column.cell(row) }}
+                </mat-icon>
+              </span>
+              <span class="truncate-text" *ngIf="column.header != '' && column.cell(row) != 'null'" 
+               title="{{column.cell(row)}}" instead matTooltip="">
+               {{ column.cell(row) != "undefined" ? column.cell(row) : "" }}
+              </span>
+          </mat-cell>
+          
+          <mat-footer-cell *matFooterCellDef   
+          [ngClass]="{  
+                      'hide-columns': hiddenColumns.indexOf(column.columnDef.trim()) != -1,
+                      'w-75': w_75.indexOf(column.columnDef.trim()) != -1,
+                      'w-85': w_85.indexOf(column.columnDef.trim()) != -1,
+                      'w-125': w_125.indexOf(column.columnDef.trim()) != -1,
+                      'w-150': w_150.indexOf(column.columnDef.trim()) != -1}"
+          >
+            <input #in class="field-filter" [id]="column.columnDef" [ngStyle]="{'display':i > 0 && hiddenColumns.indexOf(column.columnDef.trim()) == -1 ? 'inline' : 'none'}" matInput 
+            (input)="onSearchInput(in.value, column.columnDef, false, column.header)" placeholder="{{ column.header}}" title="Filter by &quot;{{ column.header}}&quot;">
+          </mat-footer-cell>
+          
+      </ng-container>
+          
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns" 
+          [ngClass]="{
+              'make-blue': inComingDashboard === 'correspondence',
+              'make-gold': inComingDashboard === 'originator',
+              'make-green': inComingDashboard === 'reviewer' 
+          }">
+      </mat-header-row>
+      
+      <mat-row *matRowDef="let row; columns: displayedColumns;" 
+           matRipple class="element-row" [cdkDetailRow]="row" [cdkDetailRowTpl]="tpl">
+      </mat-row>
+
+      
+      <mat-footer-row *matFooterRowDef="displayedColumns"  [ngClass]="{
+            'hide-me':((dataSource2?.page$ | async)?.totalElements == 0 && isFieldSearchActivated == false) || inComingDashboard != 'correspondence'}">
+      </mat-footer-row>
+
+    </mat-table>
+    <!--No Records Found-->
+    <table *ngIf="dataSource2?.page$ | async as page">
+      <tr style="height: 40px;"  *ngIf="page.totalElements == 0">
+        <td style="text-align: center;background-color: aliceblue;" [attr.colspan]="displayedColumns.length">
+          No Record found...
+        </td>
+      </tr>
+    </table>
+    <!--Paginator-->
+    <!-- <mat-paginator *ngIf="inComingDashboard == 'reviewer'" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" [hidden]="correspodenceData?.length === 0"></mat-paginator> -->
+    
+    <mat-toolbar>
+      <mat-toolbar-row>
+        <form [formGroup]="pageSizeForm">
+          <mat-form-field style="float: left;  width: 100px; font-size: 12px; color: gray;">
+              <mat-select formControlName="pageSizeSelect" (selectionChange)="onchangePageSize($event)"  placeholder="Items per page">
+                  <mat-option *ngFor="let s of pageSizeOptions" [value]="s" >
+                    {{s}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+        </form>
+        <span class="example-spacer"></span>
+        <mat-paginator *ngIf="dataSource2.page$ | async as page" style="width: 100%; background-color: transparent;" [hidePageSize]="true"
+          [length]="page.totalElements" [pageSize]="page.size" [pageIndex]="page.number" (page)="dataSource2.fetch($event.pageIndex)" showFirstLastButtons>
+        </mat-paginator>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <!-- <mat-paginator #pageginator *ngIf="dataSource2?.page$ | async as page" style="display: none;" 
+      [length]="page.totalElements" [pageSize]="page.size"
+      [pageIndex]="page.number" (page)="dataSource2.fetch($event.pageIndex)" showFirstLastButtons>
+    </mat-paginator> -->
+</div>
+
+<!--Details row -->
+<ng-template #tpl let-element>
+    <div class="mat-row detail-row" [@detailExpand] style="overflow: hidden">
+      
+      <div class="detail-row-content row">
+        <!--Button commands option -->   
+        <div class="example-button-row col-md-2 col-xs-12">
+          <div style="color:#081292 ;margin-left:2px;font-size: small" class="row">{{element.catsid}} for {{element.leadOfficeName}}</div>            
+         
+          <!-- Correspondence buttons -->
+          <a title="Manage" *ngIf="inComingDashboard == 'correspondence'" mat-button   routerLink="/correspondence/cdetails" [queryParams]="{id: element?.id}" >
+            Manage Existing
+          </a>
+
+          <!-- Originators buttons -->
+          <div  *ngIf="inComingDashboard == 'originator'" >
+
+            <a title="View Details"  mat-button  *ngIf="originatorFilterBy == 'collaboration'" 
+              [ngClass]="'mat-button-originator'" [routerLink]="element.isPendingLeadOffice || element.collaboration == undefined ? '/originator/opending' : '/originator/ocollaborationdetails'" [queryParams]="{id: element.id}">
+              View Details
+            </a>     
+
+            <a title="Manage" *ngIf="originatorFilterBy == 'collaboration' && element.letterStatus != 'Closed'" mat-button 
+              [ngClass]="'mat-button-originator'" [routerLink]="setOriginatorRouterLink(element.isPendingLeadOffice)" [queryParams]="{id: element.id}"
+            >Manage Existing
+            </a>   
+
+            <a title="Manage"  mat-button  *ngIf="originatorFilterBy == 'collaboration' && element.letterStatus != 'Closed'" 
+              [ngClass]="'mat-button-originator'" routerLink="/originator/olaunch" [queryParams]="{id: element.id}">
+              Launch Next Round
+            </a>  
+          
+            <a title="View Details"  mat-button  *ngIf="originatorFilterBy == 'pending'" 
+              [ngClass]="'mat-button-originator'" [routerLink]="element.isPendingLeadOffice || element.collaboration == undefined ? '/originator/opending' : '/originator/ocollaborationdetails'" [queryParams]="{id: element.id}">
+              View Details
+            </a>     
+            
+            <button (click)="onArchive(element.id,'Archived')" title="Archive" 
+              *ngIf="originatorFilterBy == 'copied' && selectedStatus == 'Open'" mat-button color="primary" 
+                [ngClass]="'mat-button-originator'">
+              <span >Archive</span>
+            </button>
+
+            <button (click)="onArchive(element.id,'Removed')" title="Restore" 
+              *ngIf="originatorFilterBy == 'copied' && selectedStatus != 'Open'" mat-button color="primary" 
+                [ngClass]="'mat-button-originator'">
+              <span>Restore</span>
+            </button>
+          </div>
+
+          <!-- Reviewers buttons -->
+          <div  *ngIf="inComingDashboard == 'reviewer'" >
+
+            <button title="View Details" mat-button [ngClass]="'mat-button-reviwer'"  routerLink="/reviewer/rdetails" [queryParams]="{id: element.id}">
+              View Details
+            </button>   
+  
+            <button *ngIf="selectedStatus != 'Completed' && selectedStatus != 'Draft' && element.isCurrentUserFYI == false" title="Mark Complete" mat-button color="warn"   routerLink="/reviewer/rmanage" [queryParams]="{id: element.id}"
+                [ngClass]="'mat-button-reviwer'">
+              <span *ngIf="element.currentReview?.trim().toLowerCase() != 'final packaging'">Mark Complete</span> <span *ngIf="element.currentReview?.trim().toLowerCase() == 'final packaging'">Finalize Review</span>
+            </button>
+  
+            <button *ngIf="selectedStatus != 'Completed' && selectedStatus != 'Draft' && element.isCurrentUserFYI == false" title="Mark Draft" mat-button color="primary"  routerLink="/reviewer/rdraft" [queryParams]="{id: element.id}" 
+                [ngClass]="'mat-button-reviwer'">
+              <span *ngIf="!element.currentReview?.includes('Final Packaging')">Mark Draft</span><span *ngIf="element.currentReview?.includes('Final Packaging')">Return to Originator</span>  
+            </button>
+          </div>
+         
+           <!-- Clearance sheet buttons -->
+          <button *ngIf="originatorFilterBy != 'copied' && originatorFilterBy != 'pending' && selectedStatus != 'Completed' && selectedStatus != 'Draft'" title="Generate Clearance Sheet" mat-button color="accent" 
+              [ngClass]="{
+                'mat-button-correspondence': inComingDashboard === 'correspondence',
+                'mat-button-originator': inComingDashboard === 'originator',
+                'mat-button-reviwer': inComingDashboard === 'reviewer' 
+            }" (click)="onGenerateClearanceSheet(element.id)"
+            > 
+            Clearance Sheet
+          </button>
+        </div>
+        <!--TABS Details: Documents, Users and Review Status -->
+        <div class="col-md-10 col-xs-12">
+
+            <div class="row">
+
+              <mat-tab-group mat-align-tabs="start" style="width: 100%;">
+                <!--show documents-->
+                <mat-tab 
+                  [label]="'Documents (' + ((element.referenceDocumentsCount) + '-Ref, ' + 
+                                            (element.reviewDocumentsCount) + '-Rev, ' +
+                                            (element.finalDocumentsCount)  + '-Final ') + ')'">
+                    
+                    <div class="col-md-12 col-xs-12" style="padding: 0px;">
+                      <table class="document-table"  [class.isMobile]="isMobile">
+                        
+                        <tr class="document-table-first-row">
+                          <th>Reference Documents ({{element.referenceDocumentsCount}})</th>
+                          <th>Review Documents ({{element.reviewDocumentsCount}})</th>
+                          <th>Final Documents ({{element.finalDocumentsCount}})</th></tr>
+                        <tr *ngIf="element.referenceDocumentsCount > 0 || element.reviewDocumentsCount > 0 || element.finalDocumentsCount > 0">
+                          <td [innerHtml]="element.referenceDocuments | safe:'style'">ng-container</td>
+                          <td [innerHtml]="element.reviewDocuments | safe:'html'">None</td>
+                          <td [innerHtml]="element.finalDocuments | safe:'style'">None</td>
+                        </tr>                    
+
+                        <tr *ngIf="element.referenceDocumentsCount == 0 && element.reviewDocumentsCount == 0 && element.finalDocumentsCount == 0">
+                          <td [attr.colspan]="isPending_Copied == false ? 3 : 1" class="no-record-found-td">No Record Found</td>
+                        </tr>
+
+                      </table>
+                  </div>
+                </mat-tab>
+                <!--show users : Reviwers, Originators , FYI-->
+                <mat-tab *ngIf="element.isUnderReview == true && isPending_Copied == false && selectedStatus != 'Completed'"
+                  [label]="'Assigned Users (' + element.originatorsCount + '-Ori, ' +
+                                        element.reviewersCount + '-Rev, ' +
+                                        element.fyiUsersCount + '-FYI ' + ')'">
+                  <div class="col-md-12 col-xs-12" style="padding: 0px;">
+                    <table class="document-table"  [class.isMobile]="isMobile">
+                      
+                      <tr class="document-table-first-row">
+                        <th>Originators ({{element.originatorsCount}})</th>
+                        <th>Reviewers ({{element.reviewersCount}})</th>
+                        <th>FYI ({{(element.collaboration?.currentFYIUsers ? element.collaboration?.currentFYIUsers?.split(';').length : 0)}})</th>
+                      </tr>
+                      <tr  *ngIf="element.originatorsCount > 0 || element.reviewersCount > 0 || element.fyiUsersCount > 0">
+                        <td [innerHtml]="element.collaboration?.currentOriginators?.split(';').join('\n')" style="white-space: pre;">None</td>
+                        <td [innerHtml]="element.collaboration?.currentReviewers?.split(';').join('\n')" style="white-space: pre;">ng-container</td>                        
+                        <td [innerHtml]="element.collaboration?.currentFYIUsers?.split(';').join('\n')" style="white-space: pre;">None</td>
+                      </tr> 
+
+                      <tr *ngIf="element.originatorsCount == 0 && element.reviewersCount == 0 && element.fyiUsersCount == 0">
+                        <td colspan="3" class="no-record-found-td">No Record Found</td>
+                      </tr>
+
+                    </table>
+                  </div>
+                </mat-tab>
+                <!--show review status users : Completed, Draft-->
+                <mat-tab *ngIf="element.isUnderReview == true && isPending_Copied == false && selectedStatus != 'Completed'" label="Review Status: (" 
+                 [label]="'Review Status (' + (element.completedCount) + '-Completed, ' +
+                                              (element.draftCount) + '-Draft ' + ')'">
+                  <div class="col-md-12 col-xs-12" style="padding: 0px;">
+                    <table class="document-table"  [class.isMobile]="isMobile">
+                      <caption>Review Status</caption>
+                      <tr class="document-table-first-row">
+                        <th>Completed ({{element.completedCount}})</th>
+                        <th>Draft ({{element.draftCount}})</th>
+                      </tr>
+                      <tr *ngIf="element.completedCount > 0 || element.draftCount > 0" >
+                        <td [innerHtml]="element.collaboration?.completedReviewers?.split(';').join('\n')" style="white-space: pre;">ng-container</td>
+                        <td [innerHtml]="element.collaboration?.draftReviewers?.split(';').join('\n')" style="white-space: pre;">None</td>
+                      </tr>
+
+                      <tr *ngIf="element.completedCount == 0 && element.draftCount == 0">
+                        <td colspan="3" class="no-record-found-td">No Record Found</td>
+                      </tr>
+                    </table>
+                  </div>
+                </mat-tab>
+              </mat-tab-group>
+           
+          </div>
+        </div>
+      </div>          
+  </div>
+</ng-template>
+
+   
