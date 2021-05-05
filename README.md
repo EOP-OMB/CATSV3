@@ -5,7 +5,7 @@
 3. [Installation](#installation)
 4. [Collaboration](#collaboration)
 5. [Roles](#faqs)
-6. [API Testing]
+6. [API Testing](#api)
 
 ### General Info
 ***
@@ -28,7 +28,7 @@ Client side installation.
 $ git clone "CATS V3" project
 $ cd ..CATSV3\Client\CatsV3
 $ npm install
-```
+
 Database installation. 
 Go to ...CATSV3\Documents folder.
 1. Create a CATS database such as "Database Name."
@@ -63,11 +63,9 @@ Dependencies:
 2. Must have the Framework (submodule) project underneath CATSV3 folder as such ...CATSV3\Framework
 3. CATS uses the users' "UPN" as the unique user account id. 
 
-
 ## Collaboration
 ***
-Please contact MOD IT.
-
+Please contact support.
 
 ## Roles
 Check table Roles
