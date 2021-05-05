@@ -73,7 +73,7 @@ Check table Roles
 ## API Testing
 Use Postman
 	1. Get : https://your client site/api/api/lettertype
-	2. Correspondence, Collaboration, Originator, Reviewer, FyiUser controller require the user' credential token cookie to be passed
+	2. Correspondence, Collaboration, Originator, Reviewer, Fyi User controller require the user credential token cookie to be passed
 		1. Headers:
 			1. add a new key called Cookie
 			2. copy and past local credential token cookie
