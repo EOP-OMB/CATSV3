@@ -5,7 +5,6 @@
 3. [Installation](#installation)
 4. [Collaboration](#collaboration)
 5. [Roles](#faqs)
-6. [API Testing](#api)
 
 ### General Info
 ***
@@ -53,7 +52,7 @@ Other.
 	1. MOD.CatsV3.ConnectionString , value="Server=Instance;Database=YOUR DATABASE;Trusted_Connection=True;MultipleActiveResultSets=true" : This is your CATS DB connection string
 	2. MOD_User_ConnectionString, value="Server=Instance;Database=YOUR DATABASE;Trusted_Connection=True;MultipleActiveResultSets=true" : This is your DB where the employee table is located
 	3. MOD.CatsV3.SiteUrl, value="Your CATS Client site name: IIS: https://sitename"
-	4. MOD.CatsV3.SiteAPIUrl, valeue="Your Web API application: https://sitename/api"
+	4. MOD.CatsV3.SiteAPIUrl, value="Your Web API application: https://sitename/api"
 	5. MOD.CatsV3.SPSiteUrl, value="Your Sharepoint site where the document library is created: https://sharepoint/sites/cats"
 	6. MOD.CatsV3.document library, value ="Sharepoint Document library name": Created in the Sharepoint step 5.
 	7. MOD.CatsV3.CATSArchiveEmailService, value="mailbox to archive the final package emails": for preservation of presidential record purposes
@@ -69,13 +68,4 @@ Please contact support.
 
 ## Roles
 Check table Roles
-
-## API Testing
-Use Postman
-	1. Get : https://your client site/api/api/lettertype
-	2. Correspondence, Collaboration, Originator, Reviewer, Fyi User controller require the user credential token cookie to be passed
-		1. Headers:
-			1. add a new key called Cookie
-			2. copy and past local credential token cookie
-			3. click send
 
